@@ -1,6 +1,6 @@
 namespace Test{
 
-export funcation aaa(){
+export funcation aaa():void{
 
 }
 
