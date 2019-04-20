@@ -1,7 +1,4 @@
-basic.showLeds(`
-    . . . . .
-    . # . # .
-    . . . . .
-    # . . . #
-    . # # # .
-    `);
+namespace Test{
+
+
+}
