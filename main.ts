@@ -73,7 +73,7 @@ namespace TTT{
     export function GetColor(): number {
         pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
         let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
-        return buff[0] * 2;
+        return buff[0] + buff[1];
     }
 
 }
