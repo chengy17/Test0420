@@ -2,7 +2,9 @@
 namespace TTT{
 
     const COLOR_ADD = 0x53;
-    const COLOR_MODE = 0x01;
+    const COLOR_R = 0x00;
+    const COLOR_G = 0x04;
+    const COLOR_B = 0x05;
     
 
     let initialized = false;
@@ -58,31 +60,33 @@ namespace TTT{
     }
 
     function initColorI2C(): void {
-        i2cwrite(COLOR_ADD, COLOR_MODE, 0x00);
+        i2cwrite(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
+        i2cwrite(COLOR_ADD, COLOR_G, NumberFormat.UInt8BE);
+        i2cwrite(COLOR_ADD, COLOR_B, NumberFormat.UInt8BE);
         //setFreq(50);
-        setRegConfig();
+        // setRegConfig();
         initialized = true;
     }
 
-    function setRegConfig(): void {
+    // function setRegConfig(): void {
         
-    }
+    // }
 
-    function setFreq(freq: number): void {
-        // Constrain the frequency
-        let prescaleval = 25000000;
-        prescaleval /= 4096;
-        prescaleval /= freq;
-        prescaleval -= 1;
-        let prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
-        let oldmode = i2cread(COLOR_ADD, COLOR_MODE);
-        let newmode = (oldmode & 0x7F) | 0x10; // sleep
-        i2cwrite(COLOR_ADD, COLOR_MODE, newmode); // go to sleep
-        i2cwrite(COLOR_ADD, COLOR_MODE, prescale); // set the prescaler
-        i2cwrite(COLOR_ADD, COLOR_MODE, oldmode);
-        control.waitMicros(5000);
-        i2cwrite(COLOR_ADD, COLOR_MODE, oldmode | 0xa1);
-    }
+    // function setFreq(freq: number): void {
+    //     // Constrain the frequency
+    //     let prescaleval = 25000000;
+    //     prescaleval /= 4096;
+    //     prescaleval /= freq;
+    //     prescaleval -= 1;
+    //     let prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
+    //     let oldmode = i2cread(COLOR_ADD, COLOR_MODE);
+    //     let newmode = (oldmode & 0x7F) | 0x10; // sleep
+    //     i2cwrite(COLOR_ADD, COLOR_MODE, newmode); // go to sleep
+    //     i2cwrite(COLOR_ADD, COLOR_MODE, prescale); // set the prescaler
+    //     i2cwrite(COLOR_ADD, COLOR_MODE, oldmode);
+    //     control.waitMicros(5000);
+    //     i2cwrite(COLOR_ADD, COLOR_MODE, oldmode | 0xa1);
+    // }
 
     
     //% blockId=TTT_RGB block="RGB|%rgb"
@@ -92,7 +96,7 @@ namespace TTT{
         if (!initialized) {
             initColorI2C();
         }
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
         let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
         return buff[rgb];
         // i2ccmd(COLOR_ADD, COLOR_MODE);
