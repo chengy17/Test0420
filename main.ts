@@ -91,10 +91,10 @@ namespace TTT{
         return buff[0] *2;
     }
 
-    //% blockId=powerbrick_gc_rgb block="Gesture/Color RGB|%rgb"
-    //% group="Color/Gesture" weight=21
+    //% blockId=TTT_RGB block="RGB|%rgb"
+    //% group="Color" weight=21
     //% blockGap = 50
-    export function GC_RGB(rgb: GCRgb): number {
+    export function RGB(rgb: GCRgb): number {
         pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE1, NumberFormat.UInt8BE);
         let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
         return buff[rgb];
