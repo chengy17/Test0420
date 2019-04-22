@@ -59,8 +59,13 @@ namespace TTT{
 
     function initColorI2C(): void {
         i2cwrite(COLOR_ADD, COLOR_MODE, 0x00);
-        setFreq(50);
+        //setFreq(50);
+        setRegConfig();
         initialized = true;
+    }
+
+    function setRegConfig(): void {
+        
     }
 
     function setFreq(freq: number): void {
