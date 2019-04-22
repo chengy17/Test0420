@@ -1,7 +1,7 @@
 //% color="#228B22" weight=25 icon="\uf0b2"
 namespace TTT{
 
-    const COLOR_ADD = 0x6A;
+    const COLOR_ADD = 0x53;
     const COLOR_MODE = 0x01;
     
 
@@ -87,12 +87,12 @@ namespace TTT{
         if (!initialized) {
             initColorI2C();
         }
-        // pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
-        // let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
-        // return buff[rgb];
-        i2ccmd(COLOR_ADD, COLOR_MODE);
-        let buff = i2cread(COLOR_ADD, COLOR_MODE);
-        return buff;
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
+        let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
+        return buff[rgb];
+        // i2ccmd(COLOR_ADD, COLOR_MODE);
+        // let buff = i2cread(COLOR_ADD, COLOR_MODE);
+        // return buff;
     }
 
 }
