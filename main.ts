@@ -3,7 +3,7 @@ namespace TTT{
 
     const COLOR_ADD = 0x6D;
     const COLOR_MODE = 0x02;
-    const COLOR_MODE1 = 0x03;
+    
 
     let initialized = false;
 
@@ -27,7 +27,7 @@ namespace TTT{
         Yellow,
     }
 
-    export enum GCRgb {
+    export enum enRGB {
         //% block=brightness
         Brightness = 0,
         //% block=red
@@ -58,7 +58,7 @@ namespace TTT{
     }
 
     function initColorI2C(): void {
-        i2cwrite(COLOR_ADD, COLOR_MODE, 0x00);
+        i2cwrite(COLOR_ADD, COLOR_MODE, 0x07);
         setFreq(50);
         initialized = true;
     }
@@ -79,25 +79,15 @@ namespace TTT{
         i2cwrite(COLOR_ADD, COLOR_MODE, oldmode | 0xa1);
     }
 
-    //% blockId=TTT_GetColor block="Color"
-    //% group="Color" weight=28
-    export function GetColor(): number {
-        if (!initialized) {
-            initColorI2C();
-        }
-           
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
-        let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
-        return buff[0] *2;
-    }
-
+    
     //% blockId=TTT_RGB block="RGB|%rgb"
     //% group="Color" weight=21
     //% blockGap = 50
-    export function RGB(rgb: GCRgb): number {
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE1, NumberFormat.UInt8BE);
-        let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
-        return buff[rgb];
+    export function RGB(rgb: enRGB): number {
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
+        // let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
+        let buff = i2cread(COLOR_ADD, COLOR_MODE);
+        return buff;
     }
 
 }
