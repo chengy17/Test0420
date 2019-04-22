@@ -27,27 +27,6 @@ namespace TTT{
     }
 
 
-    //% blockId=crocoBit_Input_Color block="Color|value %value"
-    //% weight=100
-    //% blockGap=10
-    //% color="#228B22"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
-    export function Color(value: enColor): boolean {
-
-        if (!initialized) {
-            initColorI2C();
-        }
-        let color: number = i2cread(COLOR_ADD, COLOR_MODE);
-        switch (color) {
-            case 0x01:
-                return enColor.Red == value;
-                break;
-            default:
-                break;
-        }
-        return false;
-    }
-
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
         buf[0] = reg
