@@ -1,7 +1,7 @@
 //% color="#228B22" weight=25 icon="\uf0b2"
 namespace TTT{
 
-    const COLOR_ADD = 0x6D;
+    const COLOR_ADD = 0x10;
     const COLOR_MODE = 0x02;
     
 
@@ -86,6 +86,7 @@ namespace TTT{
     export function RGB(rgb: enRGB): number {
         pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
         // let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
+        //return buff[rgb];
         let buff = i2cread(COLOR_ADD, COLOR_MODE);
         return buff;
     }
