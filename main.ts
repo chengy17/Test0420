@@ -1,7 +1,7 @@
 //% color="#228B22" weight=25 icon="\uf0b2"
 namespace TTT{
 
-    const COLOR_ADD = 0x35;
+    const COLOR_ADD = 0x6A;
     const COLOR_MODE = 1;
     
 
