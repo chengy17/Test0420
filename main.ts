@@ -2,7 +2,7 @@
 namespace TTT{
 
     const COLOR_ADD = 0x6D;
-    const COLOR_MODE = 21;
+    const COLOR_MODE = 0x02;
 
     let initialized = false;
 
