@@ -101,7 +101,7 @@ namespace TTT{
         // let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
         // return buff[rgb];
         // i2ccmd(COLOR_ADD, COLOR_MODE);
-        let buff: number;
+        let buff: number = 0;
         switch (rgb) {
             case enRGB.Blue:
                 buff = i2cread(COLOR_ADD, COLOR_B);
@@ -120,6 +120,7 @@ namespace TTT{
                 return buff;
                 break;
             default:
+                return 9;
                 break;
         }
         
