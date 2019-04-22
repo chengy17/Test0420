@@ -3,6 +3,7 @@ namespace TTT{
 
     const COLOR_ADD = 0x6D;
     const COLOR_MODE = 0x02;
+    const COLOR_MODE1 = 0x03;
 
     let initialized = false;
 
@@ -26,6 +27,16 @@ namespace TTT{
         Yellow,
     }
 
+    export enum GCRgb {
+        //% block=brightness
+        Brightness = 0,
+        //% block=red
+        Red = 1,
+        //% block=green
+        Green = 2,
+        //% block=blue
+        Blue = 3
+    }
 
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
@@ -78,6 +89,15 @@ namespace TTT{
         pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
         let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
         return buff[0] *2;
+    }
+
+    //% blockId=powerbrick_gc_rgb block="Gesture/Color RGB|%rgb"
+    //% group="Color/Gesture" weight=21
+    //% blockGap = 50
+    export function GC_RGB(rgb: GCRgb): number {
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE1, NumberFormat.UInt8BE);
+        let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
+        return buff[rgb];
     }
 
 }
