@@ -2,7 +2,7 @@
 namespace TTT{
 
     const COLOR_ADD = 0x10;
-    const COLOR_MODE = 0x02;
+    const COLOR_MODE = 1;
     
 
     let initialized = false;
@@ -58,7 +58,7 @@ namespace TTT{
     }
 
     function initColorI2C(): void {
-        i2cwrite(COLOR_ADD, COLOR_MODE, 0x07);
+        i2cwrite(COLOR_ADD, COLOR_MODE, 0x00);
         setFreq(50);
         initialized = true;
     }
@@ -84,11 +84,14 @@ namespace TTT{
     //% group="Color" weight=21
     //% blockGap = 50
     export function RGB(rgb: enRGB): number {
+        if (!initialized) {
+            initColorI2C();
+        }
         pins.i2cWriteNumber(COLOR_ADD, COLOR_MODE, NumberFormat.UInt8BE);
-        // let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
-        //return buff[rgb];
-        let buff = i2cread(COLOR_ADD, COLOR_MODE);
-        return buff;
+        let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
+        return buff[rgb];
+        // let buff = i2cread(COLOR_ADD, COLOR_MODE);
+        // return buff;
     }
 
 }
