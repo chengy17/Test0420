@@ -104,9 +104,9 @@ namespace TTT{
             initColorI2C();
         }
         pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
-        let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
+        let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
         
-        return buff[0]+buff[1]+buff[2]+buff[3];
+        return buff[0]*2;
         
         
         // let buff: number = 0;
