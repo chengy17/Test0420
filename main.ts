@@ -9,6 +9,9 @@ namespace TTT{
     
 
     let initialized = false;
+    let val_red = 0; 
+    let val_green = 0;
+    let val_blue = 0;
 
     export enum enColor {
 
@@ -75,6 +78,74 @@ namespace TTT{
         i2cwrite(COLOR_ADD, 0x04, 0x41);
         i2cwrite(COLOR_ADD, 0x05, 0x01);
     }
+
+    export function GetRGB(): void {
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
+        let buff_R = pins.i2cReadBuffer(COLOR_ADD, 2);
+
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_G, NumberFormat.UInt8BE);
+        let buff_G = pins.i2cReadBuffer(COLOR_ADD, 2);
+
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_B, NumberFormat.UInt8BE);
+        let buff_B = pins.i2cReadBuffer(COLOR_ADD, 2);
+
+        let Red = (buff_R[1] & 0xff) << 8 | (buff_R[0] & 0xff);
+        let Green = (buff_G[1] & 0xff) << 8 | (buff_G[0] & 0xff);
+        let Blue = (buff_B[1] & 0xff) << 8 | (buff_B[0] & 0xff);
+
+        val_red = (Red * 10) / 1224 * 25.5;
+        val_green = (Green * 10) / 2186 * 25.5;
+        val_blue = (Blue * 10) / 1104 * 25.5;
+
+        if (val_red > val_green && val_red > val_blue) {         
+            val_red = 255;        
+            val_green /= 2;       
+            val_blue /= 2;   
+        }    
+        else if (val_green > val_red && val_green > val_blue) {    
+            val_green = 255;    
+            val_red /= 2;    
+            val_blue /= 2;   
+        } 
+        else if (val_blue > val_red && val_blue > val_green) {
+            val_blue = 255;        
+            val_red /= 2;        
+            val_green /= 2;   
+        }
+
+    }
+
+    //% blockId=TTT_GetR block="ColorR"
+    //% group="Color" weight=28
+    export function GetR(): number {
+        // pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
+        // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
+        // return buff[0] * 2;
+        GetRGB();
+        return val_red;
+    }
+
+    //% blockId=TTT_GetG block="ColorG"
+    //% group="Color" weight=28
+    export function GetG(): number {
+        // pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
+        // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
+        // return buff[0] * 2;
+        GetRGB();
+        return val_green;
+    }
+
+    //% blockId=TTT_GetB block="ColorB"
+    //% group="Color" weight=28
+    export function GetB(): number {
+        // pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
+        // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
+        // return buff[0] * 2;
+        GetRGB();
+        return val_blue;
+    }
+    
+
 
     //% blockId=TTT_GetColor block="Color"
     //% group="Color" weight=28
