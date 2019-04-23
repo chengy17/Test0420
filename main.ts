@@ -65,19 +65,16 @@ namespace TTT{
         // i2cwrite(COLOR_ADD, COLOR_G, 0X41);
         // i2cwrite(COLOR_ADD, COLOR_B, 0X01);
         //setFreq(50);
-        // setRegConfig();
-
         
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_G, NumberFormat.UInt8BE);
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_B, NumberFormat.UInt8BE);
-
+        setRegConfig();
         initialized = true;
     }
 
-    // function setRegConfig(): void {
-        
-    // }
+    function setRegConfig(): void {
+        i2cwrite(COLOR_ADD, COLOR_REG, 0x06);
+        i2cwrite(COLOR_ADD, 0x04, 0x41);
+        i2cwrite(COLOR_ADD, 0x05, 0x01);
+    }
 
     // function setFreq(freq: number): void {
     //     // Constrain the frequency
@@ -103,36 +100,40 @@ namespace TTT{
         if (!initialized) {
             initColorI2C();
         }
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
-        let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
+        // pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
+        // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
         
-        return buff[0]*2;
+        // return buff[0]*2;
         
+        let ColorData : Buffer;
+        switch (rgb) {
+            case enRGB.Blue:
+            
+                ColorData[1] = i2cread(COLOR_ADD, COLOR_B);
+                let Red = ((ColorData[1]&0xff) << 8 | (ColorData[0]&0xff));
+                
+                break;
+            case enRGB.Green:
+            
+                ColorData[2] = i2cread(COLOR_ADD, COLOR_G);
+                
+                break;
+            case enRGB.Red:
+            
+                ColorData[3] = i2cread(COLOR_ADD, COLOR_R);
+                
+                break;
+            case enRGB.Brightness:
+            
+                ColorData[0] = i2cread(COLOR_ADD, COLOR_REG);
+                
+                break;
+            default:
+                break;
+            
+        }
         
-        // let buff: number = 0;
-        // switch (rgb) {
-        //     case enRGB.Blue:
-        //         buff = i2cread(COLOR_ADD, COLOR_B);
-        //         return buff;
-        //         break;
-        //     case enRGB.Green:
-        //         buff = i2cread(COLOR_ADD, COLOR_G);
-        //         return buff;
-        //         break;
-        //     case enRGB.Red:
-        //         buff = i2cread(COLOR_ADD, COLOR_R);
-        //         return buff;
-        //         break;
-        //     case enRGB.Brightness:
-        //         buff = i2cread(COLOR_ADD, COLOR_REG);
-        //         return buff;
-        //         break;
-        //     default:
-        //         return 9;
-        //         break;
-        // }
-        
-        
+        return ColorData[rgb];
         
     }
 
