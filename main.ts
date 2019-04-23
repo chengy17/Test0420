@@ -61,11 +61,16 @@ namespace TTT{
     }
 
     function initColorI2C(): void {
-        i2cwrite(COLOR_ADD, COLOR_R, 0X06);
-        i2cwrite(COLOR_ADD, COLOR_G, 0X41);
-        i2cwrite(COLOR_ADD, COLOR_B, 0X01);
+        // i2cwrite(COLOR_ADD, COLOR_R, 0X06);
+        // i2cwrite(COLOR_ADD, COLOR_G, 0X41);
+        // i2cwrite(COLOR_ADD, COLOR_B, 0X01);
         //setFreq(50);
         // setRegConfig();
+
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_G, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_B, NumberFormat.UInt8BE);
+
         initialized = true;
     }
 
