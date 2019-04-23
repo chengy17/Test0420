@@ -159,22 +159,25 @@ namespace TTT{
 
     //% blockId=TTT_MotorRun block="Motor|%pin|speed(-255~255) %speed"
     //% weight=93
-    //% speed.min=-255 speed.max=255
+    //% speed.min=0 speed.max=1023
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function MotorRun(pin: AnalogPin, speed: number): void {
-        
-        // speed = speed * 16; // map 255 to 4096
-        // if (speed >= 4096) {
-        //     speed = 4095
-        // }
-        // if (speed <= -4096) {
-        //     speed = -4095
-        // }
-
+      
         pins.analogWritePin(pin, speed);
-        
+
     }
 
 
+    //% blockId=TTT_Servo block="Servo|pin %pin|value %value"
+    //% weight=100
+    //% blockGap=10
+    //% color="#0000CD"
+    //% value.min=0 value.max=180
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=9
+    export function Servo(pin: AnalogPin, value: number): void {
+
+        pins.servoWritePin(pin, value);
+
+    }
 
 }
