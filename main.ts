@@ -76,22 +76,13 @@ namespace TTT{
         i2cwrite(COLOR_ADD, 0x05, 0x01);
     }
 
-    // function setFreq(freq: number): void {
-    //     // Constrain the frequency
-    //     let prescaleval = 25000000;
-    //     prescaleval /= 4096;
-    //     prescaleval /= freq;
-    //     prescaleval -= 1;
-    //     let prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
-    //     let oldmode = i2cread(COLOR_ADD, COLOR_MODE);
-    //     let newmode = (oldmode & 0x7F) | 0x10; // sleep
-    //     i2cwrite(COLOR_ADD, COLOR_MODE, newmode); // go to sleep
-    //     i2cwrite(COLOR_ADD, COLOR_MODE, prescale); // set the prescaler
-    //     i2cwrite(COLOR_ADD, COLOR_MODE, oldmode);
-    //     control.waitMicros(5000);
-    //     i2cwrite(COLOR_ADD, COLOR_MODE, oldmode | 0xa1);
-    // }
-
+    //% blockId=TTT_GetColor block="Color"
+    //% group="Color" weight=28
+    export function GetColor(): number {
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
+        let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
+        return buff[0] * 2;
+    }
     
     //% blockId=TTT_RGB block="RGB|%rgb"
     //% group="Color" weight=21
@@ -100,41 +91,8 @@ namespace TTT{
         if (!initialized) {
             initColorI2C();
         }
-        // pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
-        // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
-        
-        // return buff[0]*2;
-        
-        let ColorData : Buffer;
-        switch (rgb) {
-            case enRGB.Blue:
-            
-                ColorData[1] = i2cread(COLOR_ADD, COLOR_B);
-                
-                
-                break;
-            case enRGB.Green:
-            
-                ColorData[2] = i2cread(COLOR_ADD, COLOR_G);
-                
-                break;
-            case enRGB.Red:
-            
-                ColorData[3] = i2cread(COLOR_ADD, COLOR_R);
-                
-                break;
-            case enRGB.Brightness:
-            
-                ColorData[0] = i2cread(COLOR_ADD, COLOR_REG);
-                
-                break;
-            default:
-                break;
-            
-        }
-        
-        return ColorData[rgb];
-        
+        return 1;
+
     }
 
 
