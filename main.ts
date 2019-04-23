@@ -110,7 +110,7 @@ namespace TTT{
             case enRGB.Blue:
             
                 ColorData[1] = i2cread(COLOR_ADD, COLOR_B);
-                let Red = ((ColorData[1]&0xff) << 8 | (ColorData[0]&0xff));
+                
                 
                 break;
             case enRGB.Green:
