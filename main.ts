@@ -103,33 +103,34 @@ namespace TTT{
         if (!initialized) {
             initColorI2C();
         }
-        // pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
-        // let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
-        // return buff[rgb];
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
+        let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
+        
+        return buff[0]+buff[1]+buff[2]+buff[3];
         
         
-        let buff: number = 0;
-        switch (rgb) {
-            case enRGB.Blue:
-                buff = i2cread(COLOR_ADD, COLOR_B);
-                return buff;
-                break;
-            case enRGB.Green:
-                buff = i2cread(COLOR_ADD, COLOR_G);
-                return buff;
-                break;
-            case enRGB.Red:
-                buff = i2cread(COLOR_ADD, COLOR_R);
-                return buff;
-                break;
-            case enRGB.Brightness:
-                buff = i2cread(COLOR_ADD, COLOR_REG);
-                return buff;
-                break;
-            default:
-                return 9;
-                break;
-        }
+        // let buff: number = 0;
+        // switch (rgb) {
+        //     case enRGB.Blue:
+        //         buff = i2cread(COLOR_ADD, COLOR_B);
+        //         return buff;
+        //         break;
+        //     case enRGB.Green:
+        //         buff = i2cread(COLOR_ADD, COLOR_G);
+        //         return buff;
+        //         break;
+        //     case enRGB.Red:
+        //         buff = i2cread(COLOR_ADD, COLOR_R);
+        //         return buff;
+        //         break;
+        //     case enRGB.Brightness:
+        //         buff = i2cread(COLOR_ADD, COLOR_REG);
+        //         return buff;
+        //         break;
+        //     default:
+        //         return 9;
+        //         break;
+        // }
         
         
         
