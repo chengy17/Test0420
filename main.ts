@@ -157,7 +157,7 @@ namespace TTT{
         
     }
 
-    //% blockId=TTT_MotorRun block="Motor|%pin|speed(-255~255) %speed"
+    //% blockId=TTT_MotorRun block="Motor|%pin|speed %speed"
     //% weight=93
     //% speed.min=0 speed.max=1023
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
