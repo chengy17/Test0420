@@ -161,17 +161,17 @@ namespace TTT{
     //% weight=93
     //% speed.min=-255 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function MotorRun(pin: AnalogOutPin, speed: number): void {
+    export function MotorRun(pin: AnalogPin, speed: number): void {
         
-        speed = speed * 16; // map 255 to 4096
-        if (speed >= 4096) {
-            speed = 4095
-        }
-        if (speed <= -4096) {
-            speed = -4095
-        }
+        // speed = speed * 16; // map 255 to 4096
+        // if (speed >= 4096) {
+        //     speed = 4095
+        // }
+        // if (speed <= -4096) {
+        //     speed = -4095
+        // }
 
-        pin.analogWrite(speed);
+        pins.analogWritePin(pin, speed);
         
     }
 
