@@ -134,4 +134,47 @@ namespace TTT{
         
     }
 
+
+
+
+    export enum enMotors {
+        M1 = 8,
+        M2 = 10,
+        M3 = 12,
+        M4 = 14
+    }
+
+    function setPwm(channel: number, on: number, off: number): void {
+        if (channel < 0 || channel > 15)
+            return;
+        
+        let buf = pins.createBuffer(5);
+        buf[0] = 4 * channel;
+        buf[1] = on & 0xff;
+        buf[2] = (on >> 8) & 0xff;
+        buf[3] = off & 0xff;
+        buf[4] = (off >> 8) & 0xff;
+        
+    }
+
+    //% blockId=TTT_MotorRun block="Motor|%pin|speed(-255~255) %speed"
+    //% weight=93
+    //% speed.min=-255 speed.max=255
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function MotorRun(pin: AnalogOutPin, speed: number): void {
+        
+        speed = speed * 16; // map 255 to 4096
+        if (speed >= 4096) {
+            speed = 4095
+        }
+        if (speed <= -4096) {
+            speed = -4095
+        }
+
+        pin.analogWrite(speed);
+        
+    }
+
+
+
 }
