@@ -3,9 +3,9 @@ namespace TTT{
 
     const COLOR_ADD = 0x53;
     const COLOR_REG = 0x00;
-    const COLOR_R = 0x00;
-    const COLOR_G = 0x04;
-    const COLOR_B = 0x05;
+    const COLOR_R = 0x10;
+    const COLOR_G = 0x0D;
+    const COLOR_B = 0x13;
     
 
     let initialized = false;
@@ -103,9 +103,10 @@ namespace TTT{
         if (!initialized) {
             initColorI2C();
         }
-        pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(COLOR_ADD, COLOR_REG, NumberFormat.UInt8BE);
         let buff = pins.i2cReadBuffer(COLOR_ADD, 4);
         return buff[rgb];
+        
         
         // let buff: number = 0;
         // switch (rgb) {
@@ -137,47 +138,6 @@ namespace TTT{
 
 
 
-    export enum enMotors {
-        M1 = 8,
-        M2 = 10,
-        M3 = 12,
-        M4 = 14
-    }
 
-    function setPwm(channel: number, on: number, off: number): void {
-        if (channel < 0 || channel > 15)
-            return;
-        
-        let buf = pins.createBuffer(5);
-        buf[0] = 4 * channel;
-        buf[1] = on & 0xff;
-        buf[2] = (on >> 8) & 0xff;
-        buf[3] = off & 0xff;
-        buf[4] = (off >> 8) & 0xff;
-        
-    }
-
-    //% blockId=TTT_MotorRun block="Motor|%pin|speed %speed"
-    //% weight=93
-    //% speed.min=0 speed.max=1023
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function MotorRun(pin: AnalogPin, speed: number): void {
-      
-        pins.analogWritePin(pin, speed);
-
-    }
-
-
-    //% blockId=TTT_Servo block="Servo|pin %pin|value %value"
-    //% weight=100
-    //% blockGap=10
-    //% color="#0000CD"
-    //% value.min=0 value.max=180
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=9
-    export function Servo(pin: AnalogPin, value: number): void {
-
-        pins.servoWritePin(pin, value);
-
-    }
 
 }
