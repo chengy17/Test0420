@@ -63,12 +63,7 @@ namespace TTT{
         return val;
     }
 
-    function initColorI2C(): void {
-        // i2cwrite(COLOR_ADD, COLOR_R, 0X06);
-        // i2cwrite(COLOR_ADD, COLOR_G, 0X41);
-        // i2cwrite(COLOR_ADD, COLOR_B, 0X01);
-        //setFreq(50);
-        
+    function initColorI2C(): void {       
         setRegConfig();
         initialized = true;
     }
@@ -121,6 +116,9 @@ namespace TTT{
         // pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
         // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
         // return buff[0] * 2;
+        if (!initialized) {
+            initColorI2C();
+        }
         GetRGB();
         return val_red;
     }
@@ -131,6 +129,9 @@ namespace TTT{
         // pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
         // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
         // return buff[0] * 2;
+        if (!initialized) {
+            initColorI2C();
+        }
         GetRGB();
         return val_green;
     }
@@ -141,6 +142,9 @@ namespace TTT{
         // pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
         // let buff = pins.i2cReadBuffer(COLOR_ADD, 2);
         // return buff[0] * 2;
+        if (!initialized) {
+            initColorI2C();
+        }
         GetRGB();
         return val_blue;
     }
