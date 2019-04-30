@@ -1,0 +1,9 @@
+
+{
+ 
+  "TTT.GetR|block": "音乐播放",
+  "TTT.GetG|block": "音乐触摸返回",
+  "TTT.GetB|block" : "音乐按钮",
+  "TTT.GetColor|block" : "弹钢琴"
+
+}

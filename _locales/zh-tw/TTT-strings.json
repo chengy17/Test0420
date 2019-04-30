@@ -1,0 +1,8 @@
+{
+  
+  "TTT.GetR|block": "RGB編程燈",
+  "TTT.GetG|block": "音樂播放",
+  "TTT.GetB|block" : "直流電機",
+  "TTT.GetColor|block" : "雙步進電"
+  
+}

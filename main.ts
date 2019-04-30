@@ -74,7 +74,7 @@ namespace TTT{
         i2cwrite(COLOR_ADD, 0x05, 0x01);
     }
 
-    export function GetRGB(): void {
+    function GetRGB(): void {
         pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
         let buff_R = pins.i2cReadBuffer(COLOR_ADD, 2);
 
