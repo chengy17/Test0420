@@ -1,21 +1,20 @@
 {
-    "name": "Test0420",
-    "version": "0.0.0",
-    "description": "",
+    "name": "LEDBit",
+    "version": "1.0.1",
+    "description": "Extension for YahBoom LED:Bit V1.1",
+    "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "radio": "*"
+        "core": "*"
     },
     "files": [
         "README.md",
         "main.ts",
-        "_locales/zh-tw/TTT-strings.json",
-        "_locales/zh-cn/TTT-strings.json"
+        "_locales/zh-cn/LEDBit-strings.json",
+        "_locales/zh-tw/LEDBit-strings.json"
+
     ],
     "testFiles": [
         "test.ts"
     ],
-    "public": false,
-    "license": "MIT",
-    "preferredEditor": "tsprj"
+    "public": true
 }
