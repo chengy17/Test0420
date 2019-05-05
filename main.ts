@@ -1035,7 +1035,7 @@ namespace LEDBit {
             num_test1[i + 1] = num_test1[i];
         }
 
-        pins.i2cWriteBuffer(HT16K33_ADDRESS, num1);
+        pins.i2cWriteBuffer(HT16K33_ADDRESS, num_test);
         
 
         
