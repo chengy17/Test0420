@@ -1031,17 +1031,13 @@ namespace LEDBit {
         // pins.i2cWriteBuffer(HT16K33_ADDRESS, Big_heart);
 
         num_test[0] = num_test1[0];
-        for (let i = 1; i < 17; i += 2) {
+        for (let i = 0; i < 17; i += 2) {
             num_test[i] = num_test1[i + 1];
             num_test[i + 1] = num_test1[i];
         }
 
-        for(let j=0;j<16;j++) {
-            num_test[j] = num_test[j + 1]; //将字符移位
-            basic.pause(10);
-            pins.i2cWriteBuffer(HT16K33_ADDRESS, num_test);
-        }
         
+        pins.i2cWriteBuffer(HT16K33_ADDRESS, num_test);
         
       
 
