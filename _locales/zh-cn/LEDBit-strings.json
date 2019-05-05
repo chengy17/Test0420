@@ -7,6 +7,7 @@
   "LEDBit.LEDdynamic|block": "LED表情面板 显示动态表情|%index_1",
   "LEDBit.LEDcharacter|block": "LED表情面板 显示字母|%index_2",
   "LEDBit.LEDnum|block": "LED表情面板 显示数字|%index_3",
+  "LEDBit.LEDshowNum|block": "LED表情面板 动态显示数字|%num",
   "LEDBit.LEDpicture|block": "LED表情面板 显示静态图案|%index_4",
   "LEDBit.enState.OFF|block": "灭",
   "LEDBit.enState.ON|block": "亮",
