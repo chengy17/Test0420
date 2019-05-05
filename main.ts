@@ -1029,21 +1029,21 @@ namespace LEDBit {
         // }
         // pins.i2cWriteBuffer(HT16K33_ADDRESS, Big_heart);
 
-        // num_test[0] = num_test1[0];
-        // for (let i = 1; i < 17; i += 2) {
-        //     num_test[i] = num_test1[i + 1];
-        //     num_test1[i + 1] = num_test1[i];
-        // }
-
-        // pins.i2cWriteBuffer(HT16K33_ADDRESS, num_test);
-        
-        num5[0] = num51[0];
+        num_test[0] = num_test1[0];
         for (let i = 1; i < 17; i += 2) {
-            num5[i] = num51[i + 1];
-            num5[i + 1] = num51[i];
+            num_test[i] = num_test1[i + 1];
+            num_test[i + 1] = num_test1[i];
         }
 
-        pins.i2cWriteBuffer(HT16K33_ADDRESS, num5);
+        pins.i2cWriteBuffer(HT16K33_ADDRESS, num_test);
+        
+        // num5[0] = num51[0];
+        // for (let i = 1; i < 17; i += 2) {
+        //     num5[i] = num51[i + 1];
+        //     num5[i + 1] = num51[i];
+        // }
+
+        // pins.i2cWriteBuffer(HT16K33_ADDRESS, num5);
         
 
     }
