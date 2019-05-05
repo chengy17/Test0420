@@ -94,6 +94,7 @@ namespace LEDBit {
     let num7 = pins.createBuffer(17);
     let num8 = pins.createBuffer(17);
     let num9 = pins.createBuffer(17);
+    let num_test = pins.createBuffer(17);
 
 
     let num11: number[] = [0x0, 0x1, 0x0, 0x1, 0x80, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x7, 0xc0];
@@ -105,6 +106,9 @@ namespace LEDBit {
     let num71: number[] = [0x0, 0x7, 0xe0, 0x4, 0x0, 0x2, 0x0, 0x1, 0x0, 0x0, 0x80, 0x0, 0x40, 0x0, 0x20, 0x0, 0x0];
     let num81: number[] = [0x0, 0x7, 0x80, 0x8, 0x40, 0x8, 0x40, 0x7, 0x80, 0x8, 0x40, 0x8, 0x40, 0x8, 0x40, 0x7, 0x80];
     let num91: number[] = [0x0, 0x7, 0x80, 0x8, 0x40, 0x8, 0x40, 0x8, 0x40, 0xf, 0x80, 0x8, 0x0, 0x8, 0x40, 0x7, 0x80];
+
+    let num_test1: number[] = [0x01];
+
     //动态表情
     export enum dynamicExpression {
         //% blockId="dynamic_FACE1" block="Open_mouth"
@@ -1016,14 +1020,27 @@ namespace LEDBit {
             initMatrix = true;
         }
 
-        Big_heart[0] = Big_heart1[0];
+        // Big_heart[0] = Big_heart1[0];
+        // for (let wei = 0; wei < 16; wei++) {
+        //     for (let i = 1; i < 17; i += 2) {
+        //         Big_heart[i] = Big_heart1[i + 1];
+        //         Big_heart[i + 1] = Big_heart1[i];
+        //     }
+        // }
+        // pins.i2cWriteBuffer(HT16K33_ADDRESS, Big_heart);
+
+        num_test[0] = num_test1[0];
         for (let i = 1; i < 17; i += 2) {
-            Big_heart[i] = Big_heart1[i + 1];
-            Big_heart[i + 1] = Big_heart1[i];
+            num_test[i] = num_test1[i + 1];
+            num_test1[i + 1] = num_test1[i];
         }
 
-        pins.i2cWriteBuffer(HT16K33_ADDRESS, Big_heart);
+        pins.i2cWriteBuffer(HT16K33_ADDRESS, num1);
+        
+
+        
 
     }
 
+    
 }
