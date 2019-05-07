@@ -62,6 +62,14 @@ namespace LEDBit {
     let Tongue1: number[] = [0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x10, 0x8, 0xf, 0xf0, 0xe, 0x0, 0x4, 0x0, 0x0, 0x0];
     let Pout1: number[] = [0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1f, 0xf8, 0x8, 0x10, 0x4, 0x20, 0x3, 0xc0];
 
+
+    let showStop = pins.createBuffer(17);
+    let showStop1: number[] = [0x1,0x80,0x7,0xe0,0x6,0x60,0x6,0x60,0x3,0xc0,0x1,0x80,0x1,0x80,0x1,0x80];
+
+     
+
+
+
     //数字
     export enum numExpression {
         //% blockId="num_FACE1" block="num1"
@@ -1012,6 +1020,20 @@ namespace LEDBit {
         matrixShow();
     }
 
+    //% blockId=ledbit_LEDShowStop block="LEDShowStop"
+    //% weight=91
+    //% blockGap=50
+    export function LEDShowStop(): void {
+        if (!initMatrix) {
+            matrixInit();
+            initMatrix = true;
+        }
+        showStop[0] = showStop1[0];
+        for (let i = 1; i < 17; i += 2) {
+            showStop[i] = showStop1[i +1];
+            showStop[i +1] = showStop1[i];
+        }
+    }
 
     //% blockId=ledbit_LEDshowNum block="LED num Show|%num"
     //% weight=90

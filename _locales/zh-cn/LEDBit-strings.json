@@ -1,5 +1,6 @@
 {
 
+  "LEDBit.LEDShowStop|block": "LED表情面板 显示人站立",
   "LEDBit.LEDShow|block": "LED表情面板 显示静态表情|%index",
   "LEDBit.LEDDraw|block": "LED表情面板 设置|X %x|Y %y| %on",
   "LEDBit.LEDClear|block": "LED表情面板 清空",
