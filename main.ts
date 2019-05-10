@@ -1085,7 +1085,7 @@ load dependency
 "gagaBit": "file:../pxt-gagaBit"  
 */
 
-//% color="#17ecc1" weight=20 icon="\uf001"
+//% color="#CAFF70" weight=20 icon="\uf001"
 namespace gagaBit {
 
 
@@ -1177,7 +1177,7 @@ namespace gagaBit {
     //% blockId=gagaBit_Music_Handle block="Music_Handle|%index"
     //% weight=98
     //% blockGap=10
-    //% color="#17ecc1"
+    //% color="#CAFF70"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Music_Handle(index: enMusic): void {
         switch (index) {
@@ -1207,7 +1207,7 @@ namespace gagaBit {
     //% blockId=gagaBit_Touch block="Music Touch return"
     //% weight=97
     //% blockGap=10
-    //% color="#17ecc1"
+    //% color="#CAFF70"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=6
     export function Touch(): number {
         let a = 0;
@@ -1223,7 +1223,7 @@ namespace gagaBit {
     //% blockId=gagaBit_TouchButton block="Music Button|%value"
     //% weight=96
     //% blockGap=10
-    //% color="#17ecc1"
+    //% color="#CAFF70"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=6
     export function TouchButton(value: touch): number {
 
