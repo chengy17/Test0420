@@ -1323,8 +1323,8 @@ namespace gagaBit {
 
 
 
-    export enum enString {
-        A,
+    export enum enkeys{
+        A = 65,
         B,
         C,
         D,
@@ -1341,6 +1341,9 @@ namespace gagaBit {
         O,
         P,
         Q,
+        R,
+        S,
+        T,
         U,
         V,
         W,
@@ -1355,7 +1358,11 @@ namespace gagaBit {
         VK_RIGHT = 39,
         VK_DOWN = 40,
         VK_SPACE = 32,
-        VK_DELETE = 46
+        VK_DELETE = 46,
+        W = 87,
+        S = 83,
+        A = 65,
+        D = 68
     }
 
     //% blockId=gagaBit_KeyBroad_SetBaudRate block="KeyBroad SetBaudRate|%baudRate"
@@ -1383,42 +1390,57 @@ namespace gagaBit {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function KeyBroad(key: enKeyBoard): void {
         switch (key) {
-            case enKeyBoard.VK_UP:
-                serial.writeString("&");
-                break;
-            case enKeyBoard.VK_DOWN:
-                serial.writeString("(");
-                break;
-            case enKeyBoard.VK_LEFT:
-                serial.writeString("%");
-                break;
-            case enKeyBoard.VK_RIGHT:
-                serial.writeString("'");
-                break;
-            case enKeyBoard.VK_SPACE:
-                serial.writeString(" ");
-                break;
-            case enKeyBoard.VK_DELETE:
-                serial.writeString(".");
-                break;
-            default:
-                break;
+            case enKeyBoard.VK_UP: serial.writeString("&"); break;
+            case enKeyBoard.VK_DOWN: serial.writeString("("); break;
+            case enKeyBoard.VK_LEFT: serial.writeString("%"); break;
+            case enKeyBoard.VK_RIGHT: serial.writeString("'"); break;
+            case enKeyBoard.VK_SPACE: serial.writeString(" "); break;
+            case enKeyBoard.VK_DELETE: serial.writeString("."); break;
+            case enKeyBoard.W: serial.writeString("W"); break;
+            case enKeyBoard.S: serial.writeString("S"); break;
+            case enKeyBoard.A: serial.writeString("A"); break;
+            case enKeyBoard.D: serial.writeString("D"); break;
+            default: break;
         }
     }
 
 
-    //% blockId=gagaBit_KeyBroad_String block="KeyBroad_String|%string"
+    //% blockId=gagaBit_KeyBroad_Keys block="KeyBroad_Keys|%key"
     //% weight=92
     //% blockGap=10 
-    //% string.hint="hello"
     //% color="#17ecc1"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function KeyBroad_String(string: String): void {
-        let len = string.length;
-        let buff = pins.createBuffer(len);
-        for (let i = 0; i < len; i++){
-            
+    export function KeyBroad_Keys(key: enkeys): void {
+        switch (key) {
+            case enkeys.A: serial.writeString("A"); break;
+            case enkeys.B: serial.writeString("B"); break;
+            case enkeys.C: serial.writeString("C"); break;
+            case enkeys.D: serial.writeString("D"); break;
+            case enkeys.E: serial.writeString("E"); break;
+            case enkeys.F: serial.writeString("F"); break;
+            case enkeys.G: serial.writeString("G"); break;
+            case enkeys.H: serial.writeString("H"); break;
+            case enkeys.I: serial.writeString("I"); break;
+            case enkeys.J: serial.writeString("J"); break;
+            case enkeys.K: serial.writeString("K"); break;
+            case enkeys.L: serial.writeString("L"); break;
+            case enkeys.M: serial.writeString("M"); break;
+            case enkeys.N: serial.writeString("N"); break;
+            case enkeys.O: serial.writeString("O"); break;
+            case enkeys.P: serial.writeString("P"); break;
+            case enkeys.Q: serial.writeString("Q"); break;
+            case enkeys.R: serial.writeString("R"); break;
+            case enkeys.S: serial.writeString("S"); break;
+            case enkeys.T: serial.writeString("T"); break;
+            case enkeys.U: serial.writeString("U"); break;
+            case enkeys.V: serial.writeString("V"); break;
+            case enkeys.W: serial.writeString("W"); break;
+            case enkeys.X: serial.writeString("X"); break;
+            case enkeys.Y: serial.writeString("Y"); break;
+            case enkeys.Z: serial.writeString("Z"); break;
+            default: break;
         }
+
     }
 
 
