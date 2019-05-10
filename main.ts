@@ -1365,6 +1365,14 @@ namespace gagaBit {
         D = 68
     }
 
+    export enum enLock{
+
+        One = 1,
+        Two,
+        Three
+
+    }
+
     //% blockId=gagaBit_KeyBroad_SetBaudRate block="KeyBroad SetBaudRate|%baudRate"
     //% weight=94
     //% blockGap=10 
@@ -1406,7 +1414,7 @@ namespace gagaBit {
 
 
     //% blockId=gagaBit_KeyBroad_Keys block="KeyBroad_Keys|%key"
-    //% weight=92
+    //% weight=91
     //% blockGap=10 
     //% color="#17ecc1"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
@@ -1443,6 +1451,22 @@ namespace gagaBit {
 
     }
 
+    //% blockId=gagaBit_KeyBroad_lock block="KeyBroad_lock|%key"
+    //% weight=92
+    //% blockGap=10 
+    //% color="#17ecc1"
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function KeyBroad_lock(key: enLock): void {
+        let buff = pins.createBuffer(1);
+        buff[0] = 0x61;
+        switch (key) {
+            case enLock.One: serial.writeBuffer(buff); break;
+            case enLock.Two: serial.writeString("2"); break;
+            case enLock.Three: serial.writeString("3"); break;
+            
+            default: break;
+        }
+    }
 
 
 }
