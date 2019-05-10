@@ -1358,8 +1358,17 @@ namespace gagaBit {
         VK_DELETE = 46
     }
 
-    //% blockId=gagaBit_KeyBroad_Number block="KeyBroad_Number|%value"
+    //% blockId=gagaBit_KeyBroad_SetBaudRate block="KeyBroad SetBaudRate|%baudRate"
     //% weight=94
+    //% blockGap=10 
+    //% color="#17ecc1"
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function KeyBroad_SetBaudRate(baudRate: BaudRate): void {
+        serial.redirect(SerialPin.USB_TX, SerialPin.USB_RX, baudRate);
+    }
+
+    //% blockId=gagaBit_KeyBroad_Number block="KeyBroad_Number|%value"
+    //% weight=93
     //% blockGap=10 
     //% color="#17ecc1"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
@@ -1368,7 +1377,7 @@ namespace gagaBit {
     }
 
     //% blockId=gagaBit_KeyBroad block="KeyBroad|%key"
-    //% weight=93
+    //% weight=92
     //% blockGap=10 
     //% color="#17ecc1"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
