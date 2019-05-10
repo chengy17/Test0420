@@ -1367,7 +1367,7 @@ namespace gagaBit {
         serial.writeNumber(value);
     }
 
-    //% blockId=gagaBit_KeyBroad_Number block="KeyBroad_Number|%key"
+    //% blockId=gagaBit_KeyBroad block="KeyBroad|%key"
     //% weight=93
     //% blockGap=10 
     //% color="#17ecc1"
@@ -1398,9 +1398,10 @@ namespace gagaBit {
     }
 
 
-    //% blockId=gagaBit_KeyBroad_String block="KeyBroad_String|%key"
+    //% blockId=gagaBit_KeyBroad_String block="KeyBroad_String|%string"
     //% weight=92
     //% blockGap=10 
+    //% string.hint="hello"
     //% color="#17ecc1"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function KeyBroad_String(string: String): void {
