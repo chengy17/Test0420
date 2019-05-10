@@ -1177,7 +1177,7 @@ namespace gagaBit {
     //% blockId=gagaBit_Music_Handle block="Music_Handle|%index"
     //% weight=98
     //% blockGap=10
-    //% color="#CAFF70"
+    //% color="#8FBC8F"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Music_Handle(index: enMusic): void {
         switch (index) {
@@ -1207,7 +1207,7 @@ namespace gagaBit {
     //% blockId=gagaBit_Touch block="Music Touch return"
     //% weight=97
     //% blockGap=10
-    //% color="#CAFF70"
+    //% color="#8FBC8F"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=6
     export function Touch(): number {
         let a = 0;
@@ -1235,7 +1235,7 @@ namespace gagaBit {
     //% weight=95
     //% blockGap=10
     //% min.value=1 max.value=3
-    //% color="#17ecc1"
+    //% color="#8FBC8F"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=6
     export function PlayPiano(value: number): void {
         let a = 0;
