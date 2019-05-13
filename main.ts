@@ -1024,14 +1024,14 @@ namespace LEDBit {
         }
 
         manStop[0] = manStop1[0];
-        // for (let i = 1; i < 17; i += 2) {
-        //     manStop[i] = manStop1[i + 1];
-        //     manStop[i + 1] = manStop1[i];
-        // }
-
-        for (let i = 0; i < 17; i++){
-            manStop[i] = manStop1[i];
+        for (let i = 1; i < 17; i += 2) {
+            manStop[i] = manStop1[i + 1];
+            manStop[i + 1] = manStop1[i];
         }
+
+        // for (let i = 0; i < 17; i++){
+        //     manStop[i] = manStop1[i];
+        // }
         pins.i2cWriteBuffer(HT16K33_ADDRESS, manStop);
 
     }
