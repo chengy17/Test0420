@@ -1028,7 +1028,7 @@ namespace LEDBit {
             manStop[i] = manStop1[i + 1];
             manStop[i + 1] = manStop1[i];
         }
-        pins.i2cWriteBuffer(HT16K33_ADDRESS, Big_heart);
+        pins.i2cWriteBuffer(HT16K33_ADDRESS, manStop);
 
     }
 
