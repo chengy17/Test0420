@@ -62,14 +62,6 @@ namespace LEDBit {
     let Tongue1: number[] = [0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x10, 0x8, 0xf, 0xf0, 0xe, 0x0, 0x4, 0x0, 0x0, 0x0];
     let Pout1: number[] = [0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1f, 0xf8, 0x8, 0x10, 0x4, 0x20, 0x3, 0xc0];
 
-
-    let showStop = pins.createBuffer(17);
-    let showStop1: number[] = [0x00,0x00,0x00,0x00,0x00,0x90,0x4F,0x3F,0x3F,0x4F,0x90,0x00,0x00,0x00,0x00,0x00];
-
-
-
-
-
     //数字
     export enum numExpression {
         //% blockId="num_FACE1" block="num1"
@@ -91,6 +83,7 @@ namespace LEDBit {
         //% blockId="num_FACE9" block="num9"
         num_FACE9,
 
+
     }
 
     let num1 = pins.createBuffer(17);
@@ -102,7 +95,6 @@ namespace LEDBit {
     let num7 = pins.createBuffer(17);
     let num8 = pins.createBuffer(17);
     let num9 = pins.createBuffer(17);
-    let num_test = pins.createBuffer(17);
 
 
     let num11: number[] = [0x0, 0x1, 0x0, 0x1, 0x80, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x7, 0xc0];
@@ -114,10 +106,6 @@ namespace LEDBit {
     let num71: number[] = [0x0, 0x7, 0xe0, 0x4, 0x0, 0x2, 0x0, 0x1, 0x0, 0x0, 0x80, 0x0, 0x40, 0x0, 0x20, 0x0, 0x0];
     let num81: number[] = [0x0, 0x7, 0x80, 0x8, 0x40, 0x8, 0x40, 0x7, 0x80, 0x8, 0x40, 0x8, 0x40, 0x8, 0x40, 0x7, 0x80];
     let num91: number[] = [0x0, 0x7, 0x80, 0x8, 0x40, 0x8, 0x40, 0x8, 0x40, 0xf, 0x80, 0x8, 0x0, 0x8, 0x40, 0x7, 0x80];
-
-
-    let num_test1: number[] = [0x0, 0x7, 0xc0, 0x0, 0x40, 0x3, 0xc0, 0x4, 0x0, 0x4, 0x0, 0x4, 0x0, 0x4, 0x40, 0x3, 0x80];
-
     //动态表情
     export enum dynamicExpression {
         //% blockId="dynamic_FACE1" block="Open_mouth"
@@ -296,6 +284,12 @@ namespace LEDBit {
     let Teapot1: number[] = [0x0, 0x1, 0x0, 0x3, 0x80, 0x37, 0xc0, 0x48, 0x2c, 0x48, 0x38, 0x48, 0x30, 0x34, 0x60, 0x3, 0x80];
     let House1: number[] = [0x0, 0x1, 0x0, 0x2, 0x80, 0x4, 0x40, 0xf, 0xe0, 0x4, 0x40, 0x4, 0x40, 0x4, 0x40, 0x7, 0xc0];
 
+    
+    let manStop = pins.createBuffer(17);
+    let manStop1: number[] = [0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x4F, 0x3F, 0x3F, 0x4F, 0x90, 0x00, 0x00, 0x00, 0x00, 0x00];
+
+
+
 
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
@@ -326,7 +320,6 @@ namespace LEDBit {
         matBuf[0] = 0x00;
         pins.i2cWriteBuffer(HT16K33_ADDRESS, matBuf);
     }
-
     /**
      * *****************************************************************
      * @param index
@@ -527,7 +520,6 @@ namespace LEDBit {
             }
         }
     }
-
     //% blockId=ledbit_led_character block="LED character Show|%index_2"
     //% weight=97
     export function LEDcharacter(index_2: characterExpression): void {
@@ -784,7 +776,6 @@ namespace LEDBit {
             }
         }
     }
-
     //% blockId=ledbit_led_num block="LED num Show|%index_3"
     //% weight=96
     export function LEDnum(index_3: numExpression): void {
@@ -977,7 +968,6 @@ namespace LEDBit {
             }
         }
     }
-
     //% blockId=ledbit_led_draw block="LED expression Draw|X %x|Y %y| %on"
     //% x.min=1 x.max=15 y.min=0 y.max=7
     //% weight=94
@@ -995,6 +985,7 @@ namespace LEDBit {
         matBuf[idx + 1] = tmp;
         matrixShow();
     }
+
 
     //% blockId=ledbit_led_clear block="LED expression Clear"
     //% weight=93
@@ -1023,436 +1014,22 @@ namespace LEDBit {
         matrixShow();
     }
 
+
     //% blockId=ledbit_LEDShowStop block="LEDShowStop"
     //% weight=91
-    //% blockGap=50
     export function LEDShowStop(): void {
         if (!initMatrix) {
             matrixInit();
             initMatrix = true;
         }
-        showStop[0] = showStop1[0];
+
+        manStop[0] = manStop1[0];
         for (let i = 1; i < 17; i += 2) {
-            showStop[i] = showStop1[i + 1];
-            showStop[i + 1] = showStop1[i];
+            manStop[i] = manStop1[i + 1];
+            manStop[i + 1] = manStop1[i];
         }
-    }
-
-    //% blockId=ledbit_LEDshowNum block="LED num Show|%num"
-    //% weight=90
-    export function LEDshowNum(num: number): void {
-        if (!initMatrix) {
-            matrixInit();
-            initMatrix = true;
-        }
-
-        // Big_heart[0] = Big_heart1[0];
-        // for (let wei = 0; wei < 16; wei++) {
-        //     for (let i = 1; i < 17; i += 2) {
-        //         Big_heart[i] = Big_heart1[i + 1];
-        //         Big_heart[i + 1] = Big_heart1[i];
-        //     }
-        // }
-        // pins.i2cWriteBuffer(HT16K33_ADDRESS, Big_heart);
-
-        num_test[0] = num_test1[0];
-        for (let i = 1; i < 17; i += 2) {
-            num_test[i] = num_test1[i + 1];
-            num_test[i + 1] = num_test1[i];
-        }
-
-        for (let x1 = 1; x1 < 8; x1++) {
-            for (let i = 1; i < 17; i++) {
-                num_test[i] = num_test[i] >> 1;
-
-            }
-            pins.i2cWriteBuffer(HT16K33_ADDRESS, num_test);
-            basic.pause(500);
-        }
-    }
-}
-
-
-
-//% color="#CAFF70" weight=20 icon="\uf001"
-namespace gagaBit {
-
-    export enum enMusic {
-
-        dadadum = 0,
-        entertainer,
-        prelude,
-        ode,
-        nyan,
-        ringtone,
-        funk,
-        blues,
-
-        birthday,
-        wedding,
-        funereal,
-        punchline,
-        baddy,
-        chase,
-        ba_ding,
-        wawawawaa,
-        jump_up,
-        jump_down,
-        power_up,
-        power_down
-    }
-
-    export enum touch {
-        //% blockId="None" block="None"
-        None = 0x0000,
-        //% blockId="C" block="C"
-        C = 0x0001,
-
-        //% blockId="D" block="D"
-        D = 0x0002,
-
-        //% blockId="E" block="E"
-        E = 0x0004,
-
-        //% blockId="F" block="F"
-        F = 0x0008,
-
-        //% blockId="G" block="G"
-        G = 0x0010,
-
-        //% blockId="A" block="A"
-        A = 0x0020,
-
-        //% blockId="B" block="B"
-        B = 0x0040,
-
-        //% blockId="C" block="C"
-        CH = 0x0080,
+        pins.i2cWriteBuffer(HT16K33_ADDRESS, Big_heart);
 
     }
-
-    export enum enColor {
-        //% blockId="OFF" block="OFF"
-        OFF = 0,
-        //% blockId="RED" block="RED"
-        RED,
-        //% blockId="GREEN" block="GREEN"
-        GREEN,
-        //% blockId="BLUE" block="BLUE"
-        BLUE,
-        //% blockId="WHITE" block="WHITE"
-        WHITE,
-        //% blockId="CYAN" block="CYAN"
-        CYAN,
-        //% blockId="PINKISH" block="PINKISH"
-        PINKISH,
-        //% blockId="YELLOW" block="YELLOW"
-        YELLOW
-    }
-
-
-    function i2cwrite(addr: number, reg: number, value: number) {
-        let buf = pins.createBuffer(2);
-        buf[0] = reg;
-        buf[1] = value;
-        pins.i2cWriteBuffer(addr, buf);
-    }
-
-
-
-    //% blockId=gagaBit_Music_Handle block="Music_Handle|%index"
-    //% weight=98
-    //% blockGap=10
-    //% color="#8FBC8F"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Music_Handle(index: enMusic): void {
-        switch (index) {
-            case enMusic.dadadum: music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once); break;
-            case enMusic.birthday: music.beginMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Once); break;
-            case enMusic.entertainer: music.beginMelody(music.builtInMelody(Melodies.Entertainer), MelodyOptions.Once); break;
-            case enMusic.prelude: music.beginMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.Once); break;
-            case enMusic.ode: music.beginMelody(music.builtInMelody(Melodies.Ode), MelodyOptions.Once); break;
-            case enMusic.nyan: music.beginMelody(music.builtInMelody(Melodies.Nyan), MelodyOptions.Once); break;
-            case enMusic.ringtone: music.beginMelody(music.builtInMelody(Melodies.Ringtone), MelodyOptions.Once); break;
-            case enMusic.funk: music.beginMelody(music.builtInMelody(Melodies.Funk), MelodyOptions.Once); break;
-            case enMusic.blues: music.beginMelody(music.builtInMelody(Melodies.Blues), MelodyOptions.Once); break;
-            case enMusic.wedding: music.beginMelody(music.builtInMelody(Melodies.Wedding), MelodyOptions.Once); break;
-            case enMusic.funereal: music.beginMelody(music.builtInMelody(Melodies.Funeral), MelodyOptions.Once); break;
-            case enMusic.punchline: music.beginMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once); break;
-            case enMusic.baddy: music.beginMelody(music.builtInMelody(Melodies.Baddy), MelodyOptions.Once); break;
-            case enMusic.chase: music.beginMelody(music.builtInMelody(Melodies.Chase), MelodyOptions.Once); break;
-            case enMusic.ba_ding: music.beginMelody(music.builtInMelody(Melodies.BaDing), MelodyOptions.Once); break;
-            case enMusic.wawawawaa: music.beginMelody(music.builtInMelody(Melodies.Wawawawaa), MelodyOptions.Once); break;
-            case enMusic.jump_up: music.beginMelody(music.builtInMelody(Melodies.JumpUp), MelodyOptions.Once); break;
-            case enMusic.jump_down: music.beginMelody(music.builtInMelody(Melodies.JumpDown), MelodyOptions.Once); break;
-            case enMusic.power_up: music.beginMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once); break;
-            case enMusic.power_down: music.beginMelody(music.builtInMelody(Melodies.PowerDown), MelodyOptions.Once); break;
-        }
-    }
-
-    //% blockId=gagaBit_Touch block="Music Touch return"
-    //% weight=97
-    //% blockGap=10
-    //% color="#8FBC8F"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=6
-    export function Touch(): number {
-        let a = 0;
-        let b = 0;
-        let c = 0;
-        pins.i2cWriteNumber(0x50, 8, NumberFormat.UInt8BE, false);
-        a = pins.i2cReadNumber(0x50, NumberFormat.UInt8BE, true);
-        b = pins.i2cReadNumber(0x50, NumberFormat.UInt8BE, false);
-        c = (b << 8) | a;
-        return c;
-    }
-
-    //% blockId=gagaBit_TouchButton block="Music Button|%value"
-    //% weight=96
-    //% blockGap=10
-    //% color="#CAFF70"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=6
-    export function TouchButton(value: touch): number {
-
-        let c = value;
-        return c;
-    }
-
-    //% blockId=gagaBit_PlayPiano block="Play Piano|tone %value"
-    //% weight=95
-    //% blockGap=10
-    //% min.value=1 max.value=3
-    //% color="#8FBC8F"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=6
-    export function PlayPiano(value: number): void {
-        let a = 0;
-        let b = 0;
-        let c = 0;
-        let temp = 0;
-        pins.i2cWriteNumber(0x50, 8, NumberFormat.UInt8BE, false);
-        a = pins.i2cReadNumber(0x50, NumberFormat.UInt8BE, true);
-        b = pins.i2cReadNumber(0x50, NumberFormat.UInt8BE, false);
-        c = (b << 8) | a;
-
-        if (value == 1) {
-            if ((c & temp) != 0) {
-                c = c & temp;
-            } else if (c & touch.C) {
-                music.ringTone(131);
-            } else if (c & touch.D) {
-                music.ringTone(147);
-            } else if (c & touch.E) {
-                music.ringTone(165);
-            } else if (c & touch.F) {
-                music.ringTone(175);
-            } else if (c & touch.G) {
-                music.ringTone(196);
-            } else if (c & touch.A) {
-                music.ringTone(220);
-            } else if (c & touch.B) {
-                music.ringTone(247);
-            } else if (c & touch.CH) {
-                music.ringTone(262);
-            } else if (c == touch.None) {
-                //music.ringTone(0);
-                pins.digitalWritePin(DigitalPin.P0, 0);
-            }
-        }
-        else if (value == 2) {
-            if ((c & temp) != 0) {
-                c = c & temp;
-            } else if (c & touch.C) {
-                music.ringTone(262);
-            } else if (c & touch.D) {
-                music.ringTone(294);
-            } else if (c & touch.E) {
-                music.ringTone(330);
-            } else if (c & touch.F) {
-                music.ringTone(349);
-            } else if (c & touch.G) {
-                music.ringTone(392);
-            } else if (c & touch.A) {
-                music.ringTone(440);
-            } else if (c & touch.B) {
-                music.ringTone(494);
-            } else if (c & touch.CH) {
-                music.ringTone(523);
-            } else if (c == touch.None) {
-                //music.ringTone(0);
-                pins.digitalWritePin(DigitalPin.P0, 0);
-            }
-        }
-        else if (value == 3) {
-            if ((c & temp) != 0) {
-                c = c & temp;
-            } else if (c & touch.C) {
-                music.ringTone(523);
-            } else if (c & touch.D) {
-                music.ringTone(587);
-            } else if (c & touch.E) {
-                music.ringTone(659);
-            } else if (c & touch.F) {
-                music.ringTone(698);
-            } else if (c & touch.G) {
-                music.ringTone(784);
-            } else if (c & touch.A) {
-                music.ringTone(880);
-            } else if (c & touch.B) {
-                music.ringTone(988);
-            } else if (c & touch.CH) {
-                music.ringTone(1046);
-            } else if (c == touch.None) {
-                //music.ringTone(0);
-                pins.digitalWritePin(DigitalPin.P0, 0);
-            }
-        }
-    }
-
-
-
-    export enum enkeys{
-        A = 65,
-        B,
-        C,
-        D,
-        E,
-        F,
-        G,
-        H,
-        I,
-        J,
-        K,
-        L,
-        M,
-        N,
-        O,
-        P,
-        Q,
-        R,
-        S,
-        T,
-        U,
-        V,
-        W,
-        X,
-        Y,
-        Z
-    }
-
-    export enum enKeyBoard {
-        VK_LEFT = 37,
-        VK_UP = 38,
-        VK_RIGHT = 39,
-        VK_DOWN = 40,
-        VK_SPACE = 32,
-        VK_DELETE = 46,
-        W = 87,
-        S = 83,
-        A = 65,
-        D = 68
-    }
-
-    export enum enLock{
-
-        One = 1,
-        Two,
-        Three
-
-    }
-
-    //% blockId=gagaBit_KeyBroad_SetBaudRate block="KeyBroad SetBaudRate|%baudRate"
-    //% weight=94
-    //% blockGap=10 
-    //% color="#17ecc1"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function KeyBroad_SetBaudRate(baudRate: BaudRate): void {
-        serial.redirect(SerialPin.USB_TX, SerialPin.USB_RX, baudRate);
-    }
-
-    //% blockId=gagaBit_KeyBroad_Number block="KeyBroad_Number|%value"
-    //% weight=93
-    //% blockGap=10 
-    //% color="#17ecc1"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function KeyBroad_Number(value: number): void {
-        serial.writeNumber(value);
-    }
-
-    //% blockId=gagaBit_KeyBroad block="KeyBroad|%key"
-    //% weight=92
-    //% blockGap=10 
-    //% color="#17ecc1"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function KeyBroad(key: enKeyBoard): void {
-        switch (key) {
-            case enKeyBoard.VK_UP: serial.writeString("&"); break;
-            case enKeyBoard.VK_DOWN: serial.writeString("("); break;
-            case enKeyBoard.VK_LEFT: serial.writeString("%"); break;
-            case enKeyBoard.VK_RIGHT: serial.writeString("'"); break;
-            case enKeyBoard.VK_SPACE: serial.writeString(" "); break;
-            case enKeyBoard.VK_DELETE: serial.writeString("."); break;
-            case enKeyBoard.W: serial.writeString("W"); break;
-            case enKeyBoard.S: serial.writeString("S"); break;
-            case enKeyBoard.A: serial.writeString("A"); break;
-            case enKeyBoard.D: serial.writeString("D"); break;
-            default: break;
-        }
-    }
-
-
-    //% blockId=gagaBit_KeyBroad_Keys block="KeyBroad_Keys|%key"
-    //% weight=91
-    //% blockGap=10 
-    //% color="#17ecc1"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function KeyBroad_Keys(key: enkeys): void {
-        switch (key) {
-            case enkeys.A: serial.writeString("A"); break;
-            case enkeys.B: serial.writeString("B"); break;
-            case enkeys.C: serial.writeString("C"); break;
-            case enkeys.D: serial.writeString("D"); break;
-            case enkeys.E: serial.writeString("E"); break;
-            case enkeys.F: serial.writeString("F"); break;
-            case enkeys.G: serial.writeString("G"); break;
-            case enkeys.H: serial.writeString("H"); break;
-            case enkeys.I: serial.writeString("I"); break;
-            case enkeys.J: serial.writeString("J"); break;
-            case enkeys.K: serial.writeString("K"); break;
-            case enkeys.L: serial.writeString("L"); break;
-            case enkeys.M: serial.writeString("M"); break;
-            case enkeys.N: serial.writeString("N"); break;
-            case enkeys.O: serial.writeString("O"); break;
-            case enkeys.P: serial.writeString("P"); break;
-            case enkeys.Q: serial.writeString("Q"); break;
-            case enkeys.R: serial.writeString("R"); break;
-            case enkeys.S: serial.writeString("S"); break;
-            case enkeys.T: serial.writeString("T"); break;
-            case enkeys.U: serial.writeString("U"); break;
-            case enkeys.V: serial.writeString("V"); break;
-            case enkeys.W: serial.writeString("W"); break;
-            case enkeys.X: serial.writeString("X"); break;
-            case enkeys.Y: serial.writeString("Y"); break;
-            case enkeys.Z: serial.writeString("Z"); break;
-            default: break;
-        }
-
-    }
-
-    //% blockId=gagaBit_KeyBroad_lock block="KeyBroad_lock|%key"
-    //% weight=92
-    //% blockGap=10 
-    //% color="#17ecc1"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function KeyBroad_lock(key: enLock): void {
-        let buff = pins.createBuffer(1);
-        buff[0] = 0x61;
-        switch (key) {
-            case enLock.One: serial.writeBuffer(buff); break;
-            case enLock.Two: serial.writeString("2"); break;
-            case enLock.Three: serial.writeString("3"); break;
-            
-            default: break;
-        }
-    }
-
 
 }
