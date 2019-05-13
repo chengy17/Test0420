@@ -64,7 +64,7 @@ namespace LEDBit {
 
 
     let showStop = pins.createBuffer(17);
-    let showStop1: number[] = [0x1, 0x80, 0x7, 0xe0, 0x6, 0x60, 0x6, 0x60, 0x3, 0xc0, 0x1, 0x80, 0x1, 0x80, 0x1, 0x80];
+    let showStop1: number[] = [0x00,0x00,0x00,0x00,0x00,0x90,0x4F,0x3F,0x3F,0x4F,0x90,0x00,0x00,0x00,0x00,0x00];
 
 
 
@@ -326,6 +326,7 @@ namespace LEDBit {
         matBuf[0] = 0x00;
         pins.i2cWriteBuffer(HT16K33_ADDRESS, matBuf);
     }
+
     /**
      * *****************************************************************
      * @param index
@@ -526,6 +527,7 @@ namespace LEDBit {
             }
         }
     }
+
     //% blockId=ledbit_led_character block="LED character Show|%index_2"
     //% weight=97
     export function LEDcharacter(index_2: characterExpression): void {
@@ -782,6 +784,7 @@ namespace LEDBit {
             }
         }
     }
+
     //% blockId=ledbit_led_num block="LED num Show|%index_3"
     //% weight=96
     export function LEDnum(index_3: numExpression): void {
@@ -974,6 +977,7 @@ namespace LEDBit {
             }
         }
     }
+
     //% blockId=ledbit_led_draw block="LED expression Draw|X %x|Y %y| %on"
     //% x.min=1 x.max=15 y.min=0 y.max=7
     //% weight=94
@@ -991,7 +995,6 @@ namespace LEDBit {
         matBuf[idx + 1] = tmp;
         matrixShow();
     }
-
 
     //% blockId=ledbit_led_clear block="LED expression Clear"
     //% weight=93
@@ -1066,30 +1069,13 @@ namespace LEDBit {
             pins.i2cWriteBuffer(HT16K33_ADDRESS, num_test);
             basic.pause(500);
         }
-
-
-
-
-
     }
-
-
 }
 
 
 
-/*
-Copyright (C): 2010-2019, Shenzhen Yahboom Tech
-modified from liusen
-load dependency
-"gagaBit": "file:../pxt-gagaBit"  
-*/
-
 //% color="#CAFF70" weight=20 icon="\uf001"
 namespace gagaBit {
-
-
-
 
     export enum enMusic {
 
