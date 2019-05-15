@@ -413,6 +413,7 @@ namespace LEDBit {
             matrixInit();
             initMatrix = true;
         }
+        LEDClear();
         switch (index_1) {
             case dynamicExpression.dynamic_FACE1: {
                 Open_mouth0[0] = Open_mouth01[0];
@@ -509,6 +510,7 @@ namespace LEDBit {
             }
             case dynamicExpression.dynamic_FACE4: {
                 //statements; 
+                LEDClear();
                 for (let i = 0; i < 17; i++) {
                     manGo0[i] = manGo0A[i];
                 }
@@ -533,6 +535,7 @@ namespace LEDBit {
                 // pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo3);
                 // basic.pause(600);
 
+                LEDClear();
                 for (let i = 0; i < 17; i++) {
                     manGo4[i] = manGo4A[i];
                 }
