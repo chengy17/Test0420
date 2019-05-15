@@ -515,30 +515,29 @@ namespace LEDBit {
                 pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo0);
                 basic.pause(600);
 
-                for (let i = 0; i < 17; i++) {
-                    manGo1[i] = manGo1A[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo1);
-                basic.pause(600);
+                // for (let i = 0; i < 17; i++) {
+                //     manGo1[i] = manGo1A[i];
+                // }
+                // pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo1);
+                // basic.pause(600);
 
-                for (let i = 0; i < 17; i++) {
-                    manGo2[i] = manGo2A[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo2);
-                basic.pause(600);
+                // for (let i = 0; i < 17; i++) {
+                //     manGo2[i] = manGo2A[i];
+                // }
+                // pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo2);
+                // basic.pause(600);
 
-                for (let i = 0; i < 17; i++) {
-                    manGo3[i] = manGo3A[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo3);
-                basic.pause(600);
+                // for (let i = 0; i < 17; i++) {
+                //     manGo3[i] = manGo3A[i];
+                // }
+                // pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo3);
+                // basic.pause(600);
 
                 for (let i = 0; i < 17; i++) {
                     manGo4[i] = manGo4A[i];
                 }
                 pins.i2cWriteBuffer(HT16K33_ADDRESS, manGo4);
                 basic.pause(600);
-
 
                 break;
             }
