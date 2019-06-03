@@ -1,4 +1,4 @@
-
+﻿
 /*
 Copyright (C): 2010-2019, Shenzhen Yahboom Tech
 modified from chengengyue
@@ -49,14 +49,17 @@ namespace CrocoKit_Sensor {
     }
 	
 	function GetRGB(): void {
+        let buff_R = pins.createBuffer(2);
+        let buff_G = pins.createBuffer(2);
+        let buff_B = pins.createBuffer(2);
         pins.i2cWriteNumber(COLOR_ADD, COLOR_R, NumberFormat.UInt8BE);
-        let buff_R = pins.i2cReadBuffer(COLOR_ADD, 2);
+        buff_R = pins.i2cReadBuffer(COLOR_ADD, 2);
 
         pins.i2cWriteNumber(COLOR_ADD, COLOR_G, NumberFormat.UInt8BE);
-        let buff_G = pins.i2cReadBuffer(COLOR_ADD, 2);
+        buff_G = pins.i2cReadBuffer(COLOR_ADD, 2);
 
         pins.i2cWriteNumber(COLOR_ADD, COLOR_B, NumberFormat.UInt8BE);
-        let buff_B = pins.i2cReadBuffer(COLOR_ADD, 2);
+        buff_B = pins.i2cReadBuffer(COLOR_ADD, 2);
 
         let Red = (buff_R[1] & 0xff) << 8 | (buff_R[0] & 0xff);
         let Green = (buff_G[1] & 0xff) << 8 | (buff_G[0] & 0xff);
