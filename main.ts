@@ -63,39 +63,33 @@ namespace CrocoKit_Sensor {
         // val_blue = Blue;
 
 
-        if (Red > 3600) Red = 3600;
-        if (Green > 7200) Green = 7200;
-        if (Blue > 3700) Blue = 3700;
+        if (Red > 3600) Red = 2600;
+        if (Green > 7200) Green = 5200;
+        if (Blue > 3700) Blue = 2700;
 
-        val_red = Math.floor(Math.map(Red, 0, 3600, 0, 255));
-        val_green = Math.floor(Math.map(Green, 0, 7200, 0, 255));
-        val_blue = Math.floor(Math.map(Blue, 0, 3700, 0, 255));
+        val_red = Math.floor(Math.map(Red, 0, 2600, 0, 255));
+        val_green = Math.floor(Math.map(Green, 0, 5200, 0, 255));
+        val_blue = Math.floor(Math.map(Blue, 0, 2700, 0, 255));
 
         if (val_red > 255) val_red = 255;
         if (val_green > 255) val_green = 255;
         if (val_blue > 255) val_blue = 255;
 
-        if (val_red > val_green && val_red > val_blue) {
-            if (val_red > 100) {
-                val_red = 255;
-                val_green /= 2;
-                val_blue /= 2;
-            }
-        }
-        else if (val_green > val_red && val_green > val_blue) {
-            if (val_green > 100) {
-                val_green = 255;
-                val_red /= 2;
-                val_blue /= 2;
-            }
-        }
-        else if (val_blue > val_red && val_blue > val_green) {
-            if (val_blue > 100) {
-                val_blue = 255;
-                val_red /= 2;
-                val_green /= 2;
-            }
-        }
+        // if (val_red > val_green && val_red > val_blue) {
+        //     if (val_red > 100) {
+        //         val_red = 255;
+        //     }
+        // }
+        // else if (val_green > val_red && val_green > val_blue) {
+        //     if (val_green > 100) {
+        //         val_green = 255;
+        //     }
+        // }
+        // else if (val_blue > val_red && val_blue > val_green) {
+        //     if (val_blue > 100) {
+        //         val_blue = 255;
+        //     }
+        // }
     }
 
 
