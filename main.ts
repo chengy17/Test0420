@@ -71,6 +71,7 @@ namespace CrocoKit_Sensor {
         val_green = Math.floor(Math.map(Green, 0, 5200, 0, 255));
         val_blue = Math.floor(Math.map(Blue, 0, 2700, 0, 255));
 
+        basic.pause(10);
         if (val_red > 255) val_red = 255;
         if (val_green > 255) val_green = 255;
         if (val_blue > 255) val_blue = 255;
