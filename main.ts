@@ -58,18 +58,18 @@ namespace CrocoKit_Sensor {
         let Green = (buff_G[1] & 0xff) << 8 | (buff_G[0] & 0xff);
         let Blue = (buff_B[1] & 0xff) << 8 | (buff_B[0] & 0xff);
 
-        val_red = Red;
-        val_green = Green;
-        val_blue = Blue;
+        // val_red = Red;
+        // val_green = Green;
+        // val_blue = Blue;
 
 
-        // if (Red > 4500) Red = 2300;
-        // if (Green > 7600) Green = 4600;
-        // if (Blue > 4600) Blue = 2700;
+        if (Red > 3600) Red = 3600;
+        if (Green > 7200) Green = 7200;
+        if (Blue > 3700) Blue = 3700;
 
-        // val_red = Math.map(Red, 0, 2300, 0, 255);
-        // val_green = Math.map(Green, 0, 4600, 0, 255);
-        // val_blue = Math.map(Blue, 0, 2700, 0, 255);
+        val_red = Math.map(Red, 0, 3600, 0, 255);
+        val_green = Math.map(Green, 0, 7200, 0, 255);
+        val_blue = Math.map(Blue, 0, 3700, 0, 255);
 
         // if (val_red == val_green && val_red == val_blue) {
         //     val_red = 255;
