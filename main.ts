@@ -46,7 +46,6 @@ namespace Sensor {
     //% blockGap=20
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
     export function Ultrasonic(Trig: DigitalPin, Echo: DigitalPin): number {
-
         pins.setPull(Trig, PinPullMode.PullNone);
         pins.digitalWritePin(Trig, 0);
         control.waitMicros(2);
@@ -54,7 +53,7 @@ namespace Sensor {
         control.waitMicros(10);
         pins.digitalWritePin(Trig, 0);
 
-        let d = pins.pulseIn(Echo, PulseValue.High, 500 * 58);   
+        const d = pins.pulseIn(Echo, PulseValue.High, 500 * 58);   
 
         return Math.idiv(d, 58);
     }
