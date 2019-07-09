@@ -11,7 +11,7 @@
  * Sonar and ping utilities
  */
 //% color="#2c3e50" weight=10
-namespace sonar {
+namespace Sensor {
     /**
      * Send a ping and get the echo time (in microseconds) as a result
      * @param trig tigger pin
@@ -19,7 +19,7 @@ namespace sonar {
      * @param unit desired conversion unit
      * @param maxCmDistance maximum distance in centimeters (default is 500)
      */
-    //% blockId=sonar_ping block="ping trig %trig|echo %echo|unit %unit"
+    //% blockId=Sensor_ping block="ping trig %trig|echo %echo|unit %unit"
     export function ping(trig: DigitalPin, echo: DigitalPin, unit: PingUnit, maxCmDistance = 500): number {
         // send pulse
         pins.setPull(trig, PinPullMode.PullNone);
@@ -38,4 +38,31 @@ namespace sonar {
             default: return d ;
         }
     }
+
+
+    //% blockId=Sensor_Ultrasonic block="Ultrasonic|Trig %Trig|Echo %Echo"
+    //% color="#228B22"
+    //% weight=97
+    //% blockGap=20
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
+    export function Ultrasonic(Trig: DigitalPin, Echo: DigitalPin): number {
+        let list: Array<number> = [0, 0, 0, 0, 0];
+        for (let i = 0; i < 5; i++) {
+            pins.setPull(Trig, PinPullMode.PullNone);
+            pins.digitalWritePin(Trig, 0);
+            control.waitMicros(2);
+            pins.digitalWritePin(Trig, 1);
+            control.waitMicros(10);
+            pins.digitalWritePin(Trig, 0);
+
+            let d = pins.pulseIn(Echo, PulseValue.High, 500*58);   //read the hight level of time
+            
+            list[i] = Math.floor(d);
+        }
+        list.sort();
+        let length = (list[1] + list[2] + list[3]) / 3;
+        return Math.idiv(length, 58);
+    }
+
+
 }
