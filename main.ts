@@ -4,7 +4,7 @@ modified from chengengyue
 */
 
 
-//% color="#228B22" weight=25 icon="\uf0b2"
+//% color="#228B22" weight=25 icon="far fa-truck-pickup"
 namespace CrocoKit_Sensor {
 
     //% blockId=CrocoKit_Sensor_IR block="IR|pin %pin|value %value"
