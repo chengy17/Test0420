@@ -34,7 +34,7 @@ namespace CrocoKit_Display {
     
 }
 
-//% color="#1E90FF" weight=23 icon="\uf474"
+//% color="#1E90FF" weight=23 icon="\uf0d1"
 namespace CrocoKit_Input {
    
     //% blockId=CrocoKit_Input_Rocker block="Rocker|pin1 %pin1|pin2 %pin2|value %value"
