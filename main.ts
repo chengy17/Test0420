@@ -19,7 +19,7 @@ namespace CrocoKit_Sensor {
 
 }
 
-//% color="#C814B8" weight=24 icon="\uf5e4"
+//% color="#C814B8" weight=24 icon="\uf207"
 namespace CrocoKit_Display {
 
     //% blockId=CrocoKit_Display_LED2 block="LED2|pin %pin|value %value"
@@ -34,7 +34,7 @@ namespace CrocoKit_Display {
     
 }
 
-//% color="#1E90FF" weight=23 icon="\uf207"
+//% color="#1E90FF" weight=23 icon="\uf474"
 namespace CrocoKit_Input {
    
     //% blockId=CrocoKit_Input_Rocker block="Rocker|pin1 %pin1|pin2 %pin2|value %value"
