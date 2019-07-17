@@ -56,6 +56,7 @@ namespace CrocoKit_Motor {
     //% blockGap=20
     //% value.min=0 value.max=180
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
+	//% advanced=true
     export function Servo(pin: AnalogPin, value: number): void {
         pins.servoWritePin(pin, value);
     }
