@@ -7,14 +7,14 @@ modified from chengengyue
 //% color="#228B22" weight=25 icon="\uf1b9"
 namespace CrocoKit_Sensor {
 
-    //% blockId=CrocoKit_Sensor_IR block="IR|pin %pin|value %value"
+    //% blockId=CrocoKit_Sensor_IR block="IR|pin %pin"
     //% weight=96
     //% blockGap=20
     //% color="#228B22"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
-    export function IR(pin: DigitalPin, value: enObstacle): boolean {
-        pins.setPull(pin, PinPullMode.PullUp);
-        return pins.digitalReadPin(pin) == value;
+    export function IR(pin: DigitalPin): boolean {
+        
+        return true;
     }
 
 }
@@ -37,35 +37,13 @@ namespace CrocoKit_Display {
 //% color="#1E90FF" weight=23 icon="\uf0d1"
 namespace CrocoKit_Input {
    
-    //% blockId=CrocoKit_Input_Rocker block="Rocker|pin1 %pin1|pin2 %pin2|value %value"
+    //% blockId=CrocoKit_Input_Rocker block="Rocker|pin1 %pin1|pin2 %pin2"
     //% weight=99
     //% blockGap=20
     //% color="#808080"
-    export function Rocker(pin1: AnalogPin, pin2: AnalogPin, value: enRocker): boolean {
-        let x = pins.analogReadPin(pin1);
-        let y = pins.analogReadPin(pin2);
-        let now_state = enRocker.NoState;
-
-        if (x < 100) // 左
-        {
-            now_state = enRocker.Left;
-        }
-        else if (x > 700) //右
-        {
-            now_state = enRocker.Right;
-        }
-        else  // 上下
-        {
-            if (y < 100) //下
-            {
-                now_state = enRocker.Down;
-            }
-            else if (y > 700) //上
-            {
-                now_state = enRocker.Up;
-            }
-        }
-        return now_state == value;
+    export function Rocker(pin1: AnalogPin, pin2: AnalogPin): boolean {
+        
+        return true;
     }
 
 }
