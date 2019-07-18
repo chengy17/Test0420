@@ -19,7 +19,7 @@ namespace OmniBit_0 {
 
 }
 
-//% color="#ECA40D" weight=24 icon="\uf1ba"
+//% color="#ECA40D" weight=24 icon="\uf1e3"
 namespace OmniBit_1 {
 
     //% blockId=CrocoKit_Display_LED2 block="LED2|pin %pin|value %value"
