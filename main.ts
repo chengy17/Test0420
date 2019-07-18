@@ -5,7 +5,7 @@ modified from chengengyue
 
 
 //% color="#ECA40D" weight=25 icon="\uf1b9"
-namespace OmniBit_0 {
+namespace OmniBit_1 {
 
     //% blockId=CrocoKit_Sensor_IR block="IR|pin %pin"
     //% weight=96
@@ -20,7 +20,7 @@ namespace OmniBit_0 {
 }
 
 //% color="#ECA40D" weight=24 icon="\uf1e3"
-namespace OmniBit_1 {
+namespace OmniBit_2 {
 
     //% blockId=CrocoKit_Display_LED2 block="LED2|pin %pin|value %value"
     //% weight=4
@@ -35,7 +35,7 @@ namespace OmniBit_1 {
 }
 
 //% color="#ECA40D" weight=23 icon="\uf0d1"
-namespace OmniBit_2 {
+namespace OmniBit_3 {
    
     //% blockId=CrocoKit_Input_Rocker block="Rocker|pin1 %pin1|pin2 %pin2"
     //% weight=99
@@ -49,7 +49,7 @@ namespace OmniBit_2 {
 }
 
 //% color="#ECA40D" weight=22 icon="\uf047"
-namespace OmniBit_3 {
+namespace OmniBit_4 {
 
     //% blockId=CrocoKit_Motor_Servo block="Servo|pin %pin|value %value"
     //% weight=100
