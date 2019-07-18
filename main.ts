@@ -4,8 +4,8 @@ modified from chengengyue
 */
 
 
-//% color="#228B22" weight=25 icon="\uf29b"
-namespace CrocoKit_Sensor {
+//% color="#ECA40D" weight=25 icon="\uf29b"
+namespace OmniBit {
 
     //% blockId=CrocoKit_Sensor_IR block="IR|pin %pin"
     //% weight=96
