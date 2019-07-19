@@ -23,7 +23,7 @@ namespace OmniBit_1 {
 namespace OmniBit_2 {
 
     //% blockId=CrocoKit_Display_LED2 block="LED2|pin %pin|value %value"
-    //% weight=4
+    //% weight=95
     //% blockGap=20
     //% color="#C814B8"
     //% value.min=0 value.max=255
@@ -38,7 +38,7 @@ namespace OmniBit_2 {
 namespace OmniBit_3 {
    
     //% blockId=CrocoKit_Input_Rocker block="Rocker|pin1 %pin1|pin2 %pin2"
-    //% weight=99
+    //% weight=94
     //% blockGap=20
     //% color="#808080"
     export function Rocker(pin1: AnalogPin, pin2: AnalogPin): boolean {
@@ -52,7 +52,7 @@ namespace OmniBit_3 {
 namespace OmniBit_4 {
 
     //% blockId=CrocoKit_Motor_Servo block="Servo|pin %pin|value %value"
-    //% weight=100
+    //% weight=93
     //% blockGap=20
     //% value.min=0 value.max=180
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
@@ -62,7 +62,7 @@ namespace OmniBit_4 {
     }
 
     //% blockId=CrocoKit_Motor_MotorRun block="Motor|%pin|speed %speed"
-    //% weight=99
+    //% weight=92
     //% blockGap=20
     //% speed.min=0 speed.max=1023
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
@@ -71,10 +71,24 @@ namespace OmniBit_4 {
     }
 
     //% blockId=CrocoKit_Motor_MotorStop block="MotorStop |pin %pin"
-    //% weight=98
+    //% weight=91
     //% blockGap=20
     export function MotorStop(pin: AnalogPin): void {
         pins.analogWritePin(pin, 0);
     }
+}
+
+//% color="#ECA40D" weight=21 icon="\uf0d1"
+namespace OmniBit_5 {
+   
+    //% blockId=CrocoKit_Input_Rocker block="Rocker|pin1 %pin1|pin2 %pin2"
+    //% weight=90
+    //% blockGap=20
+    //% color="#808080"
+    export function Rocker(pin1: AnalogPin, pin2: AnalogPin): boolean {
+        
+        return true;
+    }
+
 }
 
