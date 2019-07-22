@@ -1,5 +1,5 @@
 //% color="#E21918" weight=20 icon="\uf140"
-namespace LEDBit {
+namespace Test0420 {
 	
 	const HT16K33_ADDRESS = 0x70
     const HT16K33_BLINK_CMD = 0x80
@@ -152,7 +152,7 @@ namespace LEDBit {
         character_FACE26,
 	}
 	
-	//% blockId=ledbit_led_character block="LED character Show|%index_2"
+	//% blockId=Test0420_led_character block="LED character Show|%index_2"
     //% weight=97
     export function LEDcharacter(index_2: characterExpression): void {
         if (!initMatrix) {
