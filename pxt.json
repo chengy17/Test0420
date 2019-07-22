@@ -4,7 +4,6 @@
     "description": "Extension for test0420 ",
     "dependencies": {
         "core": "*",
-        "OmniBit": "github:chengy17/OmniBit"
     },
     "files": [
         "README.md",
