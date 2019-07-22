@@ -3,7 +3,7 @@
     "version": "1.1.0",
     "description": "Extension for test0420 ",
     "dependencies": {
-        "core": "*",
+        "core": "*"
     },
     "files": [
         "README.md",
@@ -12,6 +12,6 @@
     "testFiles": [
         "test.ts"
     ],
-    "public": false,
+    "public": true,
     "license": "MIT"
 }
