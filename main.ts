@@ -1,6 +1,17 @@
 //% color="#E21918" weight=20 icon="\uf140"
 namespace LEDBit {
 	
+	const HT16K33_ADDRESS = 0x70
+    const HT16K33_BLINK_CMD = 0x80
+    const HT16K33_BLINK_DISPLAYON = 0x01
+    const HT16K33_BLINK_OFF = 0
+    const HT16K33_BLINK_2HZ = 1
+    const HT16K33_BLINK_1HZ = 2
+    const HT16K33_BLINK_HALFHZ = 3
+    const HT16K33_CMD_BRIGHTNESS = 0xE0
+
+    let matBuf = pins.createBuffer(17);
+    let initMatrix = false
 	
 	function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
