@@ -390,7 +390,7 @@ namespace Test0420 {
                 pins.i2cWriteBuffer(HT16K33_ADDRESS, Z_show);
                 break;
             }
+		
 		}
-	
-	
+	}
 }
