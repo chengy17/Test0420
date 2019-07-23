@@ -1,9 +1,6 @@
 #!/bin/bash
 
-#git add .
-#git commit -m "commitInfo"
-#git push
-
-#git config --global commit.templte ./templte
-#git commit
+git add .
+git commit -m "commitInfo" --date="时间 +0800"
+git push
 
