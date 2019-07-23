@@ -1,6 +1,6 @@
 #!/bin/bash
 
 git add .
-git commit --date="时间 +0800" -a -m "autoCommit"
+git commit --date=$(date "+%H%M%S") -a -m "autoCommit"
 git push
 
