@@ -1,6 +1,6 @@
 #!/bin/bash
 
 git add .
-git commit -m "commitInfo" --date="时间 +0800"
+git commit --date="时间 +0800" -a -m "autoCommit"
 git push
 
