@@ -1,3 +1,6 @@
+# SuperBit
+
+Extension for Yahboom SuperBit V1.0
 
 ## License
 
