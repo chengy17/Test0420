@@ -1,17 +1,21 @@
 {
-    "name": "test0420",
-    "version": "1.1.0",
-    "description": "Extension for test0420 ",
+    "name": "SuperBit",
+    "version": "1.0.0",
+    "description": "Extension for YahBoom SuperBit V1.0",
+    "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "neopixel": "github:kittenbot/pxt-neopixel#v0.6.12"
     },
     "files": [
         "README.md",
-        "main.ts"
+        "main.ts",
+        "_locales/zh-cn/SuperBit-strings.json",
+        "_locales/zh-tw/SuperBit-strings.json"
+
     ],
     "testFiles": [
         "test.ts"
     ],
-    "public": true,
-    "license": "MIT"
+    "public": true
 }

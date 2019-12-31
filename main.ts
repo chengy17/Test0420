@@ -1,19 +1,124 @@
-//% color="#E21918" weight=20 icon="\uf140"
-namespace Test0420 {
-	
-	const HT16K33_ADDRESS = 0x70
-    const HT16K33_BLINK_CMD = 0x80
-    const HT16K33_BLINK_DISPLAYON = 0x01
-    const HT16K33_BLINK_OFF = 0
-    const HT16K33_BLINK_2HZ = 1
-    const HT16K33_BLINK_1HZ = 2
-    const HT16K33_BLINK_HALFHZ = 3
-    const HT16K33_CMD_BRIGHTNESS = 0xE0
+﻿/*
+Copyright (C): 2010-2019, Shenzhen Yahboom Tech
+modified from liusen
+load dependency
+"SuperBit": "file:../pxt-Superbit"
+*/
 
-    let matBuf = pins.createBuffer(17);
-    let initMatrix = false
-	
-	function i2cwrite(addr: number, reg: number, value: number) {
+//% color="#ECA40D" weight=20 icon="\uf085"
+namespace SuperBit {
+
+    const PCA9685_ADD = 0x40
+    const MODE1 = 0x00
+    const MODE2 = 0x01
+    const SUBADR1 = 0x02
+    const SUBADR2 = 0x03
+    const SUBADR3 = 0x04
+
+    const LED0_ON_L = 0x06
+    const LED0_ON_H = 0x07
+    const LED0_OFF_L = 0x08
+    const LED0_OFF_H = 0x09
+
+    const ALL_LED_ON_L = 0xFA
+    const ALL_LED_ON_H = 0xFB
+    const ALL_LED_OFF_L = 0xFC
+    const ALL_LED_OFF_H = 0xFD
+
+    const PRESCALE = 0xFE
+
+    const STP_CHA_L = 2047
+    const STP_CHA_H = 4095
+
+    const STP_CHB_L = 1
+    const STP_CHB_H = 2047
+
+    const STP_CHC_L = 1023
+    const STP_CHC_H = 3071
+
+    const STP_CHD_L = 3071
+    const STP_CHD_H = 1023
+
+    let initialized = false
+    let yahStrip: neopixel.Strip;
+
+   
+    export enum enMusic {
+
+        dadadum = 0,
+        entertainer,
+        prelude,
+        ode,
+        nyan,
+        ringtone,
+        funk,
+        blues,
+
+        birthday,
+        wedding,
+        funereal,
+        punchline,
+        baddy,
+        chase,
+        ba_ding,
+        wawawawaa,
+        jump_up,
+        jump_down,
+        power_up,
+        power_down
+    }
+    
+
+    
+    export enum enSteppers {
+        B1 = 0x1,
+        B2 = 0x2
+    }
+    export enum enPos { 
+        //% blockId="forward" block="forward"
+        forward = 1,
+        //% blockId="reverse" block="reverse"
+        reverse = 2,
+        //% blockId="stop" block="stop"
+        stop = 3
+    }
+
+    export enum enTurns {
+        //% blockId="T1B4" block="1/4"
+        T1B4 = 90,
+        //% blockId="T1B2" block="1/2"
+        T1B2 = 180,
+        //% blockId="T1B0" block="1"
+        T1B0 = 360,
+        //% blockId="T2B0" block="2"
+        T2B0 = 720,
+        //% blockId="T3B0" block="3"
+        T3B0 = 1080,
+        //% blockId="T4B0" block="4"
+        T4B0 = 1440,
+        //% blockId="T5B0" block="5"
+        T5B0 = 1800
+    }
+    
+    export enum enServo {
+        
+        S1 = 0,
+        S2,
+        S3,
+        S4,
+        S5,
+        S6,
+        S7,
+        S8
+    }
+    export enum enMotors {
+        M1 = 8,
+        M2 = 10,
+        M3 = 12,
+        M4 = 14
+    }
+
+    function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
         buf[0] = reg
         buf[1] = value
@@ -32,365 +137,293 @@ namespace Test0420 {
         return val;
     }
 
-    function matrixInit() {
-        i2ccmd(HT16K33_ADDRESS, 0x21);
-        i2ccmd(HT16K33_ADDRESS, HT16K33_BLINK_CMD | HT16K33_BLINK_DISPLAYON | (0 << 1));
-        i2ccmd(HT16K33_ADDRESS, HT16K33_CMD_BRIGHTNESS | 0xF);
+    function initPCA9685(): void {
+        i2cwrite(PCA9685_ADD, MODE1, 0x00)
+        setFreq(50);
+        initialized = true
     }
 
-    function matrixShow() {
-        matBuf[0] = 0x00;
-        pins.i2cWriteBuffer(HT16K33_ADDRESS, matBuf);
+    function setFreq(freq: number): void {
+        // Constrain the frequency
+        let prescaleval = 25000000;
+        prescaleval /= 4096;
+        prescaleval /= freq;
+        prescaleval -= 1;
+        let prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
+        let oldmode = i2cread(PCA9685_ADD, MODE1);
+        let newmode = (oldmode & 0x7F) | 0x10; // sleep
+        i2cwrite(PCA9685_ADD, MODE1, newmode); // go to sleep
+        i2cwrite(PCA9685_ADD, PRESCALE, prescale); // set the prescaler
+        i2cwrite(PCA9685_ADD, MODE1, oldmode);
+        control.waitMicros(5000);
+        i2cwrite(PCA9685_ADD, MODE1, oldmode | 0xa1);
     }
-	
-	
-	
-	const B1_show: number[] = [0x0, 0x1, 0xe0, 0x2, 0x20, 0x2, 0x20, 0x1, 0xe0, 0x2, 0x20, 0x2, 0x20, 0x2, 0x20, 0x1, 0xe0];
-    const C1_show: number[] = [0x0, 0x1, 0xe0, 0x2, 0x10, 0x0, 0x10, 0x0, 0x10, 0x0, 0x10, 0x0, 0x10, 0x2, 0x10, 0x1, 0xe0];
-    const D1_show: number[] = [0x0, 0x1, 0xf0, 0x2, 0x10, 0x4, 0x10, 0x4, 0x10, 0x4, 0x10, 0x4, 0x10, 0x2, 0x10, 0x1, 0xe0];
-    const E1_show: number[] = [0x0, 0x1, 0xf0, 0x0, 0x10, 0x0, 0x10, 0x1, 0xf0, 0x0, 0x10, 0x0, 0x10, 0x0, 0x10, 0x1, 0xf0];
-    const F1_show: number[] = [0x0, 0x7, 0xe0, 0x0, 0x20, 0x0, 0x20, 0x3, 0xe0, 0x0, 0x20, 0x0, 0x20, 0x0, 0x20, 0x0, 0x20];
-    const G1_show: number[] = [0x0, 0x1, 0xe0, 0x2, 0x10, 0x0, 0x10, 0x0, 0x10, 0x3, 0x90, 0x2, 0x10, 0x3, 0xe0, 0x2, 0x0];
-    const H1_show: number[] = [0x0, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x7, 0xe0, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20];
-    const I1_show: number[] = [0x0, 0x7, 0xc0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x7, 0xc0];
-    const J1_show: number[] = [0x0, 0x7, 0xe0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x20, 0x0, 0xc0, 0x0, 0x0];
-    const K1_show: number[] = [0x0, 0x4, 0x80, 0x2, 0x80, 0x1, 0x80, 0x1, 0x80, 0x2, 0x80, 0x4, 0x80, 0x8, 0x80, 0x0, 0x0];
-    const L1_show: number[] = [0x0, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80, 0xf, 0x80];
-    const M1_show: number[] = [0x0, 0x20, 0x8, 0x30, 0x18, 0x28, 0x28, 0x24, 0x48, 0x22, 0x88, 0x21, 0x8, 0x20, 0x8, 0x20, 0x8];
-    const N1_show: number[] = [0x0, 0x4, 0x8, 0x4, 0x18, 0x4, 0x28, 0x4, 0x48, 0x4, 0x88, 0x5, 0x8, 0x6, 0x8, 0x4, 0x8];
-    const O1_show: number[] = [0x0, 0x1, 0xc0, 0x2, 0x20, 0x4, 0x10, 0x4, 0x10, 0x4, 0x10, 0x4, 0x10, 0x2, 0x20, 0x1, 0xc0];
-    const P1_show: number[] = [0x0, 0x3, 0xe0, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x3, 0xe0, 0x0, 0x20, 0x0, 0x20, 0x0, 0x20];
-    const Q1_show: number[] = [0x0, 0x3, 0xc0, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x5, 0x20, 0x6, 0x20, 0x7, 0xc0, 0x8, 0x0];
-    const R1_show: number[] = [0x0, 0x0, 0xe0, 0x1, 0x20, 0x1, 0x20, 0x1, 0x20, 0x0, 0xe0, 0x0, 0x60, 0x0, 0xa0, 0x1, 0x20];
-    const S1_show: number[] = [0x0, 0x3, 0x80, 0x4, 0x40, 0x0, 0x40, 0x0, 0x80, 0x1, 0x0, 0x2, 0x0, 0x2, 0x20, 0x1, 0xc0];
-    const T1_show: number[] = [0x0, 0xf, 0xe0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0];
-    const U1_show: number[] = [0x0, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x4, 0x20, 0x3, 0xc0, 0x0, 0x0];
-    const V1_show: number[] = [0x0, 0x0, 0x0, 0x20, 0x8, 0x10, 0x10, 0x8, 0x20, 0x4, 0x40, 0x2, 0x80, 0x1, 0x0, 0x0, 0x0];
-    const W1_show: number[] = [0x0, 0x0, 0x0, 0x0, 0x0, 0x41, 0x4, 0x22, 0x88, 0x14, 0x50, 0x8, 0x20, 0x0, 0x0, 0x0, 0x0];
-    const X1_show: number[] = [0x0, 0x0, 0x0, 0x8, 0x20, 0x4, 0x40, 0x2, 0x80, 0x1, 0x0, 0x2, 0x80, 0x4, 0x40, 0x8, 0x20];
-    const Y1_show: number[] = [0x0, 0x4, 0x10, 0x2, 0x20, 0x1, 0x40, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80, 0x0, 0x80];
-    const Z1_show: number[] = [0x0, 0x1f, 0xe0, 0x8, 0x0, 0x4, 0x0, 0x2, 0x0, 0x1, 0x0, 0x0, 0x80, 0x0, 0x40, 0x1f, 0xe0];
 
-	
-	let B_show = pins.createBuffer(17);
-    let C_show = pins.createBuffer(17);
-    let D_show = pins.createBuffer(17);
-    let E_show = pins.createBuffer(17);
-    let F_show = pins.createBuffer(17);
-    let G_show = pins.createBuffer(17);
-    let H_show = pins.createBuffer(17);
-    let I_show = pins.createBuffer(17);
-    let J_show = pins.createBuffer(17);
-    let K_show = pins.createBuffer(17);
-    let L_show = pins.createBuffer(17);
-    let M_show = pins.createBuffer(17);
-    let N_show = pins.createBuffer(17);
-    let O_show = pins.createBuffer(17);
-    let P_show = pins.createBuffer(17);
-    let Q_show = pins.createBuffer(17);
-    let R_show = pins.createBuffer(17);
-    let S_show = pins.createBuffer(17);
-    let T_show = pins.createBuffer(17);
-    let U_show = pins.createBuffer(17);
-    let V_show = pins.createBuffer(17);
-    let W_show = pins.createBuffer(17);
-    let X_show = pins.createBuffer(17);
-    let Y_show = pins.createBuffer(17);
-    let Z_show = pins.createBuffer(17);
-	
-	export enum characterExpression {
-		
-		//% blockId="character_FACE2" block="char_B"
-        character_FACE2,
-        //% blockId="character_FACE3" block="char_C"
-        character_FACE3,
-        //% blockId="character_FACE4" block="char_D"
-        character_FACE4,
-        //% blockId="character_FACE5" block="char_E"
-        character_FACE5,
-        //% blockId="character_FACE6" block="char_F"
-        character_FACE6,
-        //% blockId="character_FACE7" block="char_G"
-        character_FACE7,
-        //% blockId="character_FACE8" block="char_H"
-        character_FACE8,
-        //% blockId="character_FACE9" block="char_I"
-        character_FACE9,
-        //% blockId="character_FACE10" block="char_J"
-        character_FACE10,
-        //% blockId="character_FACE11" block="char_K"
-        character_FACE11,
-        //% blockId="character_FACE12" block="char_L"
-        character_FACE12,
-        //% blockId="character_FACE13" block="char_M"
-        character_FACE13,
-        //% blockId="character_FACE14" block="char_N"
-        character_FACE14,
-        //% blockId="character_FACE15" block="char_O"
-        character_FACE15,
-        //% blockId="character_FACE16" block="char_P"
-        character_FACE16,
-        //% blockId="character_FACE17" block="char_Q"
-        character_FACE17,
-        //% blockId="character_FACE18" block="char_R"
-        character_FACE18,
-        //% blockId="character_FACE19" block="char_S"
-        character_FACE19,
-        //% blockId="character_FACE20" block="char_T"
-        character_FACE20,
-        //% blockId="character_FACE21" block="char_U"
-        character_FACE21,
-        //% blockId="character_FACE22" block="char_V"
-        character_FACE22,
-        //% blockId="character_FACE23" block="char_W"
-        character_FACE23,
-        //% blockId="character_FACE24" block="char_X"
-        character_FACE24,
-        //% blockId="character_FACE25" block="char_Y"
-        character_FACE25,
-        //% blockId="character_FACE26" block="char_Z"
-        character_FACE26,
-	}
-	
-	//% blockId=Test0420_led_character block="LED character Show|%index_2"
-    //% weight=97
-    export function LEDcharacter(index_2: characterExpression): void {
-        if (!initMatrix) {
-            matrixInit();
-            initMatrix = true;
+    function setPwm(channel: number, on: number, off: number): void {
+        if (channel < 0 || channel > 15)
+            return;
+        if (!initialized) {
+            initPCA9685();
         }
-        switch (index_2) {
-			case characterExpression.character_FACE2: {
-                B_show[0] = B1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    B_show[i] = B1_show[i + 1];
-                    B_show[i + 1] = B1_show[i];
-                }
+        let buf = pins.createBuffer(5);
+        buf[0] = LED0_ON_L + 4 * channel;
+        buf[1] = on & 0xff;
+        buf[2] = (on >> 8) & 0xff;
+        buf[3] = off & 0xff;
+        buf[4] = (off >> 8) & 0xff;
+        pins.i2cWriteBuffer(PCA9685_ADD, buf);
+    }
 
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, B_show);
-                break;
+    function setStepper(index: number, dir: boolean): void {
+        if (index == enSteppers.B1) {
+            if (dir) {
+                setPwm(11, STP_CHA_L, STP_CHA_H);
+                setPwm(9, STP_CHB_L, STP_CHB_H);
+                setPwm(10, STP_CHC_L, STP_CHC_H);
+                setPwm(8, STP_CHD_L, STP_CHD_H);
+            } else {
+                setPwm(8, STP_CHA_L, STP_CHA_H);
+                setPwm(10, STP_CHB_L, STP_CHB_H);
+                setPwm(9, STP_CHC_L, STP_CHC_H);
+                setPwm(11, STP_CHD_L, STP_CHD_H);
             }
-            case characterExpression.character_FACE3: {
-                C_show[0] = C1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    C_show[i] = C1_show[i + 1];
-                    C_show[i + 1] = C1_show[i];
-                }
+        } else {
+            if (dir) {
+                setPwm(12, STP_CHA_L, STP_CHA_H);
+                setPwm(14, STP_CHB_L, STP_CHB_H);
+                setPwm(13, STP_CHC_L, STP_CHC_H);
+                setPwm(15, STP_CHD_L, STP_CHD_H);
+            } else {
+                setPwm(15, STP_CHA_L, STP_CHA_H);
+                setPwm(13, STP_CHB_L, STP_CHB_H);
+                setPwm(14, STP_CHC_L, STP_CHC_H);
+                setPwm(12, STP_CHD_L, STP_CHD_H);
+            }
+        }
+    }
 
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, C_show);
-                break;
-            }
-            case characterExpression.character_FACE4: {
+    function stopMotor(index: number) {
+        setPwm(index, 0, 0);
+        setPwm(index + 1, 0, 0);
+    }
+    /**
+     * *****************************************************************
+     * @param index
+     */   
+    //% blockId=SuperBit_RGB_Program block="RGB_Program"
+    //% weight=99
+    //% blockGap=10
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function RGB_Program(): neopixel.Strip {
+         
+        if (!yahStrip) {
+            yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
+        }
+        return yahStrip;  
+    } 
+    
+    //% blockId=SuperBit_Music block="Music|%index"
+    //% weight=98
+    //% blockGap=10
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function Music(index: enMusic): void {
+        switch (index) {
+            case enMusic.dadadum: music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once); break;
+            case enMusic.birthday: music.beginMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Once); break;
+            case enMusic.entertainer: music.beginMelody(music.builtInMelody(Melodies.Entertainer), MelodyOptions.Once); break;
+            case enMusic.prelude: music.beginMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.Once); break;
+            case enMusic.ode: music.beginMelody(music.builtInMelody(Melodies.Ode), MelodyOptions.Once); break;
+            case enMusic.nyan: music.beginMelody(music.builtInMelody(Melodies.Nyan), MelodyOptions.Once); break;
+            case enMusic.ringtone: music.beginMelody(music.builtInMelody(Melodies.Ringtone), MelodyOptions.Once); break;
+            case enMusic.funk: music.beginMelody(music.builtInMelody(Melodies.Funk), MelodyOptions.Once); break;
+            case enMusic.blues: music.beginMelody(music.builtInMelody(Melodies.Blues), MelodyOptions.Once); break;
+            case enMusic.wedding: music.beginMelody(music.builtInMelody(Melodies.Wedding), MelodyOptions.Once); break;
+            case enMusic.funereal: music.beginMelody(music.builtInMelody(Melodies.Funeral), MelodyOptions.Once); break;
+            case enMusic.punchline: music.beginMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once); break;
+            case enMusic.baddy: music.beginMelody(music.builtInMelody(Melodies.Baddy), MelodyOptions.Once); break;
+            case enMusic.chase: music.beginMelody(music.builtInMelody(Melodies.Chase), MelodyOptions.Once); break;
+            case enMusic.ba_ding: music.beginMelody(music.builtInMelody(Melodies.BaDing), MelodyOptions.Once); break;
+            case enMusic.wawawawaa: music.beginMelody(music.builtInMelody(Melodies.Wawawawaa), MelodyOptions.Once); break;
+            case enMusic.jump_up: music.beginMelody(music.builtInMelody(Melodies.JumpUp), MelodyOptions.Once); break;
+            case enMusic.jump_down: music.beginMelody(music.builtInMelody(Melodies.JumpDown), MelodyOptions.Once); break;
+            case enMusic.power_up: music.beginMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once); break;
+            case enMusic.power_down: music.beginMelody(music.builtInMelody(Melodies.PowerDown), MelodyOptions.Once); break;
+        }
+    }
+    
+    //% blockId=SuperBit_Servo block="Servo(180°)|num %num|value %value"
+    //% weight=97
+    //% blockGap=10
+    //% num.min=1 num.max=4 value.min=0 value.max=180
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
+    export function Servo(num: enServo, value: number): void {
 
-                D_show[0] = D1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    D_show[i] = D1_show[i + 1];
-                    D_show[i + 1] = D1_show[i];
-                }
+        // 50hz: 20,000 us
+        let us = (value * 1800 / 180 + 600); // 0.6 ~ 2.4
+        let pwm = us * 4096 / 20000;
+        setPwm(num, 0, pwm);
 
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, D_show);
-                break;
-            }
-            case characterExpression.character_FACE5: {
-                E_show[0] = E1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    E_show[i] = E1_show[i + 1];
-                    E_show[i + 1] = E1_show[i];
-                }
+    }
 
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, E_show);
-                break;
+    //% blockId=SuperBit_Servo2 block="Servo(270°)|num %num|value %value"
+    //% weight=96
+    //% blockGap=10
+    //% num.min=1 num.max=4 value.min=0 value.max=270
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
+    export function Servo2(num: enServo, value: number): void {
+
+        // 50hz: 20,000 us
+        let newvalue = Math.map(value, 0, 270, 0, 180);
+        let us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
+        let pwm = us * 4096 / 20000;
+        setPwm(num, 0, pwm);
+
+    }
+
+    //% blockId=SuperBit_Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
+    //% weight=96
+    //% blockGap=10
+    //% num.min=1 num.max=4 value.min=0 value.max=90
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
+    export function Servo3(num: enServo, pos: enPos, value: number): void {
+
+        // 50hz: 20,000 us
+        
+        if (pos == enPos.stop) {
+            let us = (86 * 1800 / 180 + 600); // 0.6 ~ 2.4
+            let pwm = us * 4096 / 20000;
+            setPwm(num, 0, pwm);
+        }
+        else if(pos == enPos.forward){ //0-90 -> 90 - 0
+            let us = ((90-value) * 1800 / 180 + 600); // 0.6 ~ 2.4
+            let pwm = us * 4096 / 20000;
+            setPwm(num, 0, pwm);
+        }
+        else if(pos == enPos.reverse){ //0-90 -> 90 -180
+            let us = ((90+value) * 1800 / 180 + 600); // 0.6 ~ 2.4
+            let pwm = us * 4096 / 20000;
+            setPwm(num, 0, pwm);
+        }
+
+       
+
+    }
+    //% blockId=SuperBit_MotorRun block="Motor|%index|speed(-255~255) %speed"
+    //% weight=93
+    //% speed.min=-255 speed.max=255
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function MotorRun(index: enMotors, speed: number): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        speed = speed * 16; // map 255 to 4096
+        if (speed >= 4096) {
+            speed = 4095
+        }
+        if (speed <= -4096) {
+            speed = -4095
+        }
+
+        let a = index
+        let b = index + 1
+        
+        if (a > 10)
+        {
+            if (speed >= 0) {
+                setPwm(a, 0, speed)
+                setPwm(b, 0, 0)
+            } else {
+                setPwm(a, 0, 0)
+                setPwm(b, 0, -speed)
             }
-            case characterExpression.character_FACE6: {
-                F_show[0] = F1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    F_show[i] = F1_show[i + 1];
-                    F_show[i + 1] = F1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, F_show);
-                break;
+        }
+        else { 
+            if (speed >= 0) {
+                setPwm(b, 0, speed)
+                setPwm(a, 0, 0)
+            } else {
+                setPwm(b, 0, 0)
+                setPwm(a, 0, -speed)
             }
-            case characterExpression.character_FACE7: {
-                G_show[0] = G1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    G_show[i] = G1_show[i + 1];
-                    G_show[i + 1] = G1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, G_show);
-                break;
-            }
-            case characterExpression.character_FACE8: {
-                H_show[0] = H1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    H_show[i] = H1_show[i + 1];
-                    H_show[i + 1] = H1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, H_show);
-                break;
-            }
-            case characterExpression.character_FACE9: {
-                I_show[0] = I1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    I_show[i] = I1_show[i + 1];
-                    I_show[i + 1] = I1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, I_show);
-                break;
-            }
-            case characterExpression.character_FACE10: {
-                J_show[0] = J1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    J_show[i] = J1_show[i + 1];
-                    J_show[i + 1] = J1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, J_show);
-                break;
-            }
-            case characterExpression.character_FACE11: {
-                K_show[0] = K1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    K_show[i] = K1_show[i + 1];
-                    K_show[i + 1] = K1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, K_show);
-                break;
-            }
-            case characterExpression.character_FACE12: {
-                L_show[0] = L1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    L_show[i] = L1_show[i + 1];
-                    L_show[i + 1] = L1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, L_show);
-                break;
-            }
-            case characterExpression.character_FACE13: {
-                M_show[0] = M1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    M_show[i] = M1_show[i + 1];
-                    M_show[i + 1] = M1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, M_show);
-                break;
-            }
-            case characterExpression.character_FACE14: {
-                N_show[0] = N1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    N_show[i] = N1_show[i + 1];
-                    N_show[i + 1] = N1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, N_show);
-                break;
-            }
-            case characterExpression.character_FACE15: {
-                O_show[0] = O1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    O_show[i] = O1_show[i + 1];
-                    O_show[i + 1] = O1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, O_show);
-                break;
-            }
-            case characterExpression.character_FACE16: {
-                P_show[0] = P1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    P_show[i] = P1_show[i + 1];
-                    P_show[i + 1] = P1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, P_show);
-                break;
-            }
-            case characterExpression.character_FACE17: {
-                Q_show[0] = Q1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    Q_show[i] = Q1_show[i + 1];
-                    Q_show[i + 1] = Q1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, Q_show);
-                break;
-            }
-            case characterExpression.character_FACE18: {
-                R_show[0] = R1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    R_show[i] = R1_show[i + 1];
-                    R_show[i + 1] = R1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, R_show);
-                break;
-            }
-            case characterExpression.character_FACE19: {
-                S_show[0] = S1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    S_show[i] = S1_show[i + 1];
-                    S_show[i + 1] = S1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, S_show);
-                break;
-            }
-            case characterExpression.character_FACE20: {
-                T_show[0] = T1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    T_show[i] = T1_show[i + 1];
-                    T_show[i + 1] = T1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, T_show);
-                break;
-            }
-            case characterExpression.character_FACE21: {
-                U_show[0] = U1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    U_show[i] = U1_show[i + 1];
-                    U_show[i + 1] = U1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, U_show);
-                break;
-            }
-            case characterExpression.character_FACE22: {
-                V_show[0] = V1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    V_show[i] = V1_show[i + 1];
-                    V_show[i + 1] = V1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, V_show);
-                break;
-            }
-            case characterExpression.character_FACE23: {
-                W_show[0] = W1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    W_show[i] = W1_show[i + 1];
-                    W_show[i + 1] = W1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, W_show);
-                break;
-            }
-            case characterExpression.character_FACE24: {
-                X_show[0] = X1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    X_show[i] = X1_show[i + 1];
-                    X_show[i + 1] = X1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, X_show);
-                break;
-            }
-            case characterExpression.character_FACE25: {
-                Y_show[0] = Y1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    Y_show[i] = Y1_show[i + 1];
-                    Y_show[i + 1] = Y1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, Y_show);
-                break;
-            }
-            case characterExpression.character_FACE26: {
-                Z_show[0] = Z1_show[0];
-                for (let i = 1; i < 17; i += 2) {
-                    Z_show[i] = Z1_show[i + 1];
-                    Z_show[i + 1] = Z1_show[i];
-                }
-                pins.i2cWriteBuffer(HT16K33_ADDRESS, Z_show);
-                break;
-            }
-		
-		}
-	}
+        }
+        
+    }
+    
+
+
+    //% blockId=SuperBit_MotorRunDual block="Motor|%motor1|speed %speed1|%motor2|speed %speed2"
+    //% weight=92
+    //% blockGap=50
+    //% speed1.min=-255 speed1.max=255
+    //% speed2.min=-255 speed2.max=255
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=2
+    export function MotorRunDual(motor1: enMotors, speed1: number, motor2: enMotors, speed2: number): void {
+        MotorRun(motor1, speed1);
+        MotorRun(motor2, speed2);
+    }
+
+    //% blockId=SuperBit_StepperDegree block="Stepper Motor(28BYJ-48) |%index|degree %degree"
+    //% weight=90
+    export function StepperDegree(index: enSteppers, degree: number): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        setStepper(index, degree > 0);
+        degree = Math.abs(degree);
+        basic.pause(10240 * degree / 360);
+        MotorStopAll()
+    }
+
+    //% blockId=SuperBit_MotorStopAll block="Motor Stop All"
+    //% weight=91
+    //% blockGap=50
+    export function MotorStopAll(): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        
+        stopMotor(enMotors.M1);
+        stopMotor(enMotors.M2);
+        stopMotor(enMotors.M3);
+        stopMotor(enMotors.M4);
+        
+    }
+
+    //% blockId=SuperBit_StepperTurn block="Stepper Motor(28BYJ-48) |%index|turn %turn|circle"
+    //% weight=89
+    export function StepperTurn(index: enSteppers, turn: enTurns): void {
+        let degree = turn;
+        StepperDegree(index, degree);
+    }
+
+    //% blockId=SuperBit_StepperDual block="Dual Stepper Motor(Degree) |M1 %degree1| M2 %degree2"
+    //% weight=88
+    export function StepperDual(degree1: number, degree2: number): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        setStepper(1, degree1 > 0);
+        setStepper(2, degree2 > 0);
+        degree1 = Math.abs(degree1);
+        degree2 = Math.abs(degree2);
+        basic.pause(10240 * Math.min(degree1, degree2) / 360);
+        if (degree1 > degree2) {
+            stopMotor(enMotors.M3);
+            stopMotor(enMotors.M4);
+            basic.pause(10240 * (degree1 - degree2) / 360);
+        } else {
+            stopMotor(enMotors.M1);
+            stopMotor(enMotors.M2);
+            basic.pause(10240 * (degree2 - degree1) / 360);
+        }
+
+        MotorStopAll()
+    }
+
+    //% blockId=SuperBit_PWMOFF block="PWM OFF|%index"
+    //% weight=87
+    export function PWMOFF(index: number): void {
+        setPwm(index, 0, 0);
+    }
+
 }
